@@ -11,29 +11,11 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7f3f2;
+            background-color: #ffffff;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: #000;
-        }
-        /* Custom scrollbar for better aesthetics */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #d1d5db;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #9ca3af;
         }
     </style>
 </head>
@@ -46,9 +28,8 @@
         </div>
         <img src="https://i.imgur.com/nTXYYLi.png" alt="Logo AchadoTeca" class="mx-auto w-64 sm:w-80 mb-2">
         <div class="absolute top-4 right-4 sm:right-8 flex items-center space-x-2">
-            <button id="admin-btn" class="bg-blue-200 text-blue-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-blue-300 transition hidden">Admin</button>
+            <button id="login-btn" class="bg-emerald-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-emerald-700 transition">Login</button>
             <button id="logout-btn" class="bg-gray-200 text-gray-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-gray-300 transition hidden">Sair</button>
-            <button id="login-btn" class="bg-blue-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition">Login</button>
         </div>
         <div class="absolute top-1/2 right-4 sm:right-8 transform -translate-y-1/2 flex items-center space-x-2">
             <button id="cart-icon-btn" class="bg-emerald-600 text-white p-3 rounded-full shadow-lg hover:bg-emerald-700 transition">
@@ -111,50 +92,9 @@
                 <span id="cart-total" class="text-3xl font-bold text-emerald-600">R$ 0,00</span>
             </div>
             <!-- Botão de checkout só aparece se o carrinho não estiver vazio -->
-            <button id="checkout-from-cart-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105 mt-6 hidden">
+            <button id="checkout-from-cart-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105 mt-6">
                 Finalizar Compra
             </button>
-        </div>
-    </div>
-
-    <!-- Modal de Autenticação (Login/Cadastro) -->
-    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
-        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-800" id="auth-title">Acesse sua Conta</h2>
-                <button id="close-auth-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <form id="auth-form" class="space-y-4">
-                <div id="name-field" class="hidden">
-                    <label for="full-name" class="block text-sm font-medium text-gray-700">Nome Completo</label>
-                    <input type="text" id="full-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
-                </div>
-                <div id="phone-field" class="hidden">
-                    <label for="phone-number" class="block text-sm font-medium text-gray-700">Telefone</label>
-                    <input type="tel" id="phone-number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
-                </div>
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
-                    <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
-                </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
-                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
-                </div>
-                <button type="submit" id="auth-submit-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105">
-                    Acessar
-                </button>
-            </form>
-            <p class="mt-4 text-center text-gray-600">
-                <span id="auth-switch-text">Não tem uma conta?</span>
-                <button id="auth-switch-btn" class="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">
-                    Cadastre-se
-                </button>
-            </p>
         </div>
     </div>
 
@@ -189,51 +129,51 @@
         </div>
     </div>
 
-    <!-- Modal de Administração -->
-    <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
-        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
+    <!-- Modal de Autenticação (Login) -->
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
+        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">Painel de Administração</h2>
-                <button id="close-admin-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <h2 id="auth-title" class="text-2xl font-bold text-gray-800">Acesse sua Conta</h2>
+                <button id="close-auth-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">Usuários Cadastrados</h3>
-            <div id="users-list" class="space-y-4">
-                <p class="text-center text-gray-500">Carregando dados dos usuários...</p>
-            </div>
-            <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Histórico de Pedidos</h3>
-            <div id="orders-list" class="space-y-4">
-                <p class="text-center text-gray-500">Carregando histórico de pedidos...</p>
-            </div>
+            <form id="auth-form" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                    <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
+                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
+                </div>
+                <!-- Novo campo para confirmar senha, inicialmente oculto -->
+                <div id="confirm-password-field" class="hidden">
+                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
+                    <input type="password" id="confirm-password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2">
+                </div>
+                <!-- Área para mensagens de erro -->
+                <p id="auth-error-message" class="text-red-600 text-sm hidden"></p>
+                <button type="submit" id="auth-submit-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105">
+                    Acessar
+                </button>
+                <!-- Botão para alternar entre login e registro -->
+                <div class="text-center mt-4">
+                    <a href="#" id="toggle-auth-link" class="text-sm text-emerald-600 hover:underline">
+                        Não tem uma conta? Crie uma aqui.
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 
     <!-- Message Box -->
     <div id="message-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-800 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 z-50"></div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, getCountFromServer, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        
-        // Global variables provided by the environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        const ADMIN_EMAIL = "admin@livraria.com";
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        let userId = null;
-        let books = [];
-        let cartItems = [];
-
-        // Pre-defined book data for seeding the database
+    <script>
+        // Dados de livros predefinidos (agora como a fonte principal de dados)
         const predefinedBooks = [
             { id: 1, title: "Adolescências, Juventudes e Participação", price: 10.00, imageUrl: "https://i.imgur.com/7expm1g.png", genre: "Sociologia", description: "Uma análise profunda e multifacetada sobre a complexidade das adolescências e juventudes na sociedade contemporânea. O livro explora como a participação ativa dos jovens molda a cultura, a política e as relações sociais, abordando temas como identidade, ativismo digital e os desafios de transição para a vida adulta. Uma leitura essencial para educadores, pesquisadores e todos interessados em compreender a dinâmica da nova geração." },
             { id: 2, title: "Olhos de Azeviche", price: 10.00, imageUrl: "https://i.imgur.com/z8Lk8HA.png", genre: "Romance", description: "Em 'Olhos de Azeviche', somos levados a uma jornada emocionante através das paisagens e da alma de um protagonista em busca de redenção. A narrativa, rica em detalhes e sentimentos, desvenda um passado misterioso e um futuro incerto, onde o amor se torna o farol em meio à tempestade. Prepare-se para se perder em uma trama de paixão, segredos e a inquebrável força do espírito humano." },
@@ -241,11 +181,7 @@
             { id: 4, title: "Gibis do Cascão", price: 30.00, imageUrl: "https://i.imgur.com/G1B0ex7.png", genre: "HQ", description: "Mergulhe no universo hilário e, sim, limpinho, do Cascão! Esta edição especial reúne as melhores e mais engraçadas histórias do personagem mais avesso à água da Turma da Mônica. Com aventuras cheias de criatividade e trapalhadas, os gibis do Cascão são uma garantia de diversão para todas as idades, provando que a amizade e a alegria podem superar qualquer medo de banho." },
             { id: 5, title: "Manoel de Barros", price: 10.00, imageUrl: "https://i.imgur.com/waPqQOz.png", genre: "Poesia", description: "Através da lente poética de Manoel de Barros, o leitor é convidado a enxergar o mundo sob uma nova luz. Este livro é uma ode à simplicidade, à natureza e à infância da linguagem. Com uma escrita que subverte as regras gramaticais e celebra a pureza dos seres e objetos, o autor nos ensina a 'desinventar' as coisas e a encontrar a poesia no lixo, no rio, no ser de cada um." },
             { id: 7, title: "O Corpo Fala", price: 20.00, imageUrl: "https://i.imgur.com/nQnznHD.png", genre: "Psicologia", description: "Um clássico da comunicação não verbal, 'O Corpo Fala' é um guia indispensável para entender as mensagens ocultas por trás de nossos gestos, posturas e expressões faciais. Repleto de ilustrações e análises detalhadas, o livro desvenda como nosso corpo reflete nossos pensamentos e emoções, permitindo-nos decifrar a nós mesmos e aos outros. Uma ferramenta poderosa para aprimorar relacionamentos pessoais e profissionais." },
-            { id: 8, title: "A Dieta Ideal", price: 15.00, imageUrl: "https://i.imgur.com/aw1TJtg.png", genre: "Saúde", description: "Em 'A Dieta Ideal', o autor desmistifica os conceitos sobre alimentação saudável e apresenta um guia prático e acessível para quem busca uma vida mais equilibrada. O livro aborda temas como nutrição consciente, a importância dos macro e micronutrientes e a criação de hábitos sustentáveis, mostrando que uma dieta ideal é aquela que se adapta ao seu corpo, não o contrário." },
-            { id: 9, title: "A Coragem de Ser Imperfeito", price: 25.00, imageUrl: "https://i.imgur.com/fJq3M1c.png", genre: "Psicologia", description: "Uma poderosa leitura que nos desafia a abraçar nossas vulnerabilidades e imperfeições. Brené Brown nos guia por um caminho de autoaceitação e resiliência, mostrando que a verdadeira coragem reside em sermos autênticos. Essencial para quem busca aprofundar seu autoconhecimento e construir conexões mais genuínas." },
-            { id: 10, title: "1984", price: 35.00, imageUrl: "https://i.imgur.com/rN4g95Z.png", genre: "Ficção", description: "Um clássico distópico que ecoa com força nos dias atuais. George Orwell nos apresenta um futuro sombrio, onde a vigilância total e a manipulação da verdade são a norma. '1984' é um alerta atemporal sobre os perigos do totalitarismo e a importância de defender a liberdade de pensamento e a individualidade." },
-            { id: 11, title: "O Pequeno Príncipe", price: 18.00, imageUrl: "https://i.imgur.com/lM5xVqE.png", genre: "Infantil", description: "Uma obra-prima atemporal que nos ensina a ver o mundo com o coração. Através de sua narrativa poética e personagens inesquecíveis, o livro explora temas como amizade, amor e a busca pelo sentido da vida. Um tesouro para leitores de todas as idades." },
-            { id: 12, title: "Sapiens: Uma Breve História da Humanidade", price: 40.00, imageUrl: "https://i.imgur.com/U58X47Z.png", genre: "História", description: "Yuval Noah Harari nos leva a uma fascinante viagem no tempo, desde o surgimento do Homo sapiens até os dias de hoje. O autor questiona as narrativas que moldaram a humanidade e nos faz refletir sobre quem somos e para onde vamos. Uma leitura obrigatória para quem deseja compreender as complexidades de nossa espécie." }
+            { id: 8, title: "A Dieta Ideal", price: 15.00, imageUrl: "https://i.imgur.com/aw1TJtg.png", genre: "Saúde", description: "Em 'A Dieta Ideal', o autor desmistifica os conceitos sobre alimentação saudável e apresenta um guia prático e acessível para quem busca uma vida mais equilibrada. O livro aborda temas como nutrição consciente, a importância dos macro e micronutrientes e a criação de hábitos sustentáveis, mostrando que uma dieta ideal é aquela que se adapta ao seu corpo, não o contrário." }
         ];
 
         // Referências aos elementos do DOM
@@ -267,9 +203,370 @@
         const checkoutFromCartBtn = document.getElementById('checkout-from-cart-btn');
         const messageBox = document.getElementById('message-box');
         const checkoutTotalSpan = document.getElementById('checkout-total');
-        const pixQrCodeImg = document.getElementById('pix-qr-code');
-        const logoutBtn = document.getElementById('logout-btn');
+        const genreButtonsContainer = document.getElementById('genre-buttons');
         const loginBtn = document.getElementById('login-btn');
-        const adminBtn = document.getElementById('admin-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const authModal = document.getElementById('auth-modal');
+        const closeAuthBtn = document.getElementById('close-auth-btn');
+        const authForm = document.getElementById('auth-form');
+        
+        // Elementos do novo formulário de autenticação
+        const authTitle = document.getElementById('auth-title');
+        const confirmPasswordField = document.getElementById('confirm-password-field');
+        const authSubmitBtn = document.getElementById('auth-submit-btn');
+        const toggleAuthLink = document.getElementById('toggle-auth-link');
+        const authErrorMessage = document.getElementById('auth-error-message');
 
-        // Referências do novo modal
+        // Credenciais de login estáticas e contas salvas no localStorage
+        const ADMIN_EMAIL = "admin@livraria.com";
+        const ADMIN_PASSWORD = "senha123";
+
+        // Variáveis de estado
+        let cartItems = [];
+        let isLoginMode = true;
+
+        // Função para alternar entre o modo de login e o modo de registro
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            if (isLoginMode) {
+                authTitle.textContent = "Acesse sua Conta";
+                authSubmitBtn.textContent = "Acessar";
+                confirmPasswordField.classList.add('hidden');
+                toggleAuthLink.textContent = "Não tem uma conta? Crie uma aqui.";
+            } else {
+                authTitle.textContent = "Crie sua Conta";
+                authSubmitBtn.textContent = "Criar Conta";
+                confirmPasswordField.classList.remove('hidden');
+                toggleAuthLink.textContent = "Já tem uma conta? Acesse aqui.";
+            }
+            authErrorMessage.classList.add('hidden');
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('confirm-password').value = '';
+        }
+
+        // Inicializa o carrinho a partir do localStorage
+        function loadCartFromLocalStorage() {
+            try {
+                const storedCart = localStorage.getItem('cartItems');
+                cartItems = storedCart ? JSON.parse(storedCart) : [];
+            } catch (error) {
+                console.error("Erro ao carregar o carrinho do localStorage:", error);
+                cartItems = [];
+            }
+            updateCartDisplay();
+        }
+
+        // Salva o carrinho no localStorage
+        function saveCartToLocalStorage() {
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            updateCartDisplay();
+        }
+
+        // Message Box function to avoid `alert()`
+        function showMessage(message, duration = 3000) {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden');
+            messageBox.classList.add('opacity-100');
+            setTimeout(() => {
+                messageBox.classList.remove('opacity-100');
+                messageBox.classList.add('opacity-0');
+                setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                }, 300);
+            }, duration);
+        }
+
+        // Adiciona um item ao carrinho e salva no localStorage
+        function addToCart(book) {
+            const existingItem = cartItems.find(item => item.id === book.id);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cartItems.push({ ...book, quantity: 1 });
+            }
+            saveCartToLocalStorage();
+            showMessage(`${book.title} adicionado ao carrinho!`);
+        }
+
+        // Remove um item do carrinho e salva no localStorage
+        function removeFromCart(bookId) {
+            cartItems = cartItems.filter(item => item.id !== bookId);
+            saveCartToLocalStorage();
+            showMessage("Item removido do carrinho.");
+        }
+
+        // Atualiza a exibição do carrinho
+        function updateCartDisplay() {
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            cartItemsContainer.innerHTML = '';
+            if (cartItems.length > 0) {
+                renderCartItems(cartItems);
+                checkoutFromCartBtn.classList.remove('hidden');
+            } else {
+                cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
+                cartTotalSpan.textContent = 'R$ 0,00';
+                checkoutFromCartBtn.classList.add('hidden');
+            }
+        }
+
+        // Function to animate the book image to the cart
+        function flyToCart(startElement, imageUrl) {
+            const startRect = startElement.getBoundingClientRect();
+            const endRect = cartIconBtn.getBoundingClientRect();
+            
+            const animatedImage = document.createElement('img');
+            animatedImage.src = imageUrl;
+            animatedImage.className = 'absolute z-50 w-12 h-16 rounded-md object-cover transition-all duration-700 ease-in-out';
+            animatedImage.style.top = `${startRect.top}px`;
+            animatedImage.style.left = `${startRect.left}px`;
+            
+            document.body.appendChild(animatedImage);
+
+            setTimeout(() => {
+                animatedImage.style.top = `${endRect.top}px`;
+                animatedImage.style.left = `${endRect.left}px`;
+                animatedImage.style.transform = 'scale(0.2)';
+                animatedImage.style.opacity = '0';
+            }, 10);
+
+            animatedImage.addEventListener('transitionend', () => {
+                animatedImage.remove();
+            });
+        }
+
+        // Renderiza os livros na página a partir do array 'books'
+        function renderBooks(booksToRender) {
+            bookGrid.innerHTML = '';
+            if (booksToRender.length === 0) {
+                bookGrid.innerHTML = '<p class="text-center text-gray-800 col-span-full">Nenhum livro encontrado para este gênero.</p>';
+                return;
+            }
+            booksToRender.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = "bg-white rounded-xl shadow-lg hover:shadow-xl flex flex-col transition-all duration-300 overflow-hidden cursor-pointer book-card";
+                
+                bookCard.innerHTML = `
+                    <div class="h-64 sm:h-80 w-full overflow-hidden book-image-container">
+                        <img src="${book.imageUrl}" alt="Capa do livro ${book.title}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110 book-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/E5E7EB/4B5563?text=Imagem+N%C3%A3o+Dispon%C3%ADvel';">
+                    </div>
+                    <div class="p-4 flex flex-col items-center text-center flex-grow">
+                        <h3 class="text-xl font-semibold text-gray-900 line-clamp-2">${book.title}</h3>
+                        <p class="text-gray-600 mt-1 mb-3 line-clamp-2">${book.description}</p>
+                        <div class="flex-grow"></div>
+                        <p class="text-2xl font-bold text-gray-800 mb-4">R$ ${book.price.toFixed(2)}</p>
+                        <button class="add-to-cart-btn w-full bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-emerald-700 transition-colors">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                `;
+                
+                // Event listener para abrir o modal de detalhes
+                bookCard.querySelector('.book-image-container').addEventListener('click', () => {
+                    detailsBookImage.src = book.imageUrl;
+                    detailsBookTitle.textContent = book.title;
+                    detailsBookDescription.textContent = book.description;
+                    detailsBookPrice.textContent = `R$ ${book.price.toFixed(2)}`;
+                    detailsAddBtn.dataset.bookId = book.id;
+                    detailsModal.classList.remove('hidden');
+                });
+
+                // Event listener para adicionar ao carrinho a partir do grid
+                bookCard.querySelector('.add-to-cart-btn').addEventListener('click', (e) => {
+                    e.stopPropagation(); // Previne que o clique no botão abra o modal de detalhes
+                    flyToCart(bookCard.querySelector('.book-image-container'), book.imageUrl);
+                    addToCart(book);
+                });
+
+                bookGrid.appendChild(bookCard);
+            });
+        }
+
+        // Renderiza os botões de gênero
+        function renderGenreButtons() {
+            const genres = [...new Set(predefinedBooks.map(book => book.genre))];
+            genreButtonsContainer.innerHTML = '';
+            
+            // Botão "Todos"
+            const allBtn = document.createElement('button');
+            allBtn.textContent = 'Todos';
+            allBtn.className = 'text-white bg-emerald-600 hover:bg-emerald-700 transition font-bold px-4 py-2 rounded-full shadow-lg text-sm';
+            allBtn.addEventListener('click', () => renderBooks(predefinedBooks));
+            genreButtonsContainer.appendChild(allBtn);
+
+            genres.forEach(genre => {
+                const genreBtn = document.createElement('button');
+                genreBtn.textContent = genre;
+                genreBtn.className = 'text-white bg-emerald-600 hover:bg-emerald-700 transition font-bold px-4 py-2 rounded-full shadow-lg text-sm';
+                genreBtn.addEventListener('click', () => {
+                    const filteredBooks = predefinedBooks.filter(book => book.genre === genre);
+                    renderBooks(filteredBooks);
+                });
+                genreButtonsContainer.appendChild(genreBtn);
+            });
+        }
+
+        // Renderiza os itens do carrinho no modal
+        function renderCartItems(items) {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            items.forEach(item => {
+                total += item.price * item.quantity;
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.className = "flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm";
+                cartItemDiv.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <img src="${item.imageUrl}" alt="${item.title}" class="w-12 h-16 object-cover rounded-md">
+                        <div>
+                            <p class="font-semibold text-sm">${item.title}</p>
+                            <p class="text-xs text-gray-500">Quantidade: ${item.quantity}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm font-bold">R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                        <button class="remove-from-cart-btn text-red-500 hover:text-red-700 transition" data-book-id="${item.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+            cartTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
+            checkoutTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
+            document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const bookId = parseInt(e.currentTarget.dataset.bookId);
+                    removeFromCart(bookId);
+                });
+            });
+        }
+
+        // Handle Checkout (agora apenas exibe uma mensagem)
+        function handleCheckout() {
+            if (cartItems.length === 0) {
+                showMessage("Seu carrinho está vazio.");
+                return;
+            }
+            showMessage("Pedido finalizado com sucesso! Agradecemos a sua compra.");
+            // Limpa o carrinho após a "compra"
+            cartItems = [];
+            saveCartToLocalStorage();
+            cartModal.classList.add('hidden');
+        }
+
+        // Atualiza a UI do login/logout
+        function updateLoginUI() {
+            const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (loggedIn) {
+                loginBtn.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+            } else {
+                loginBtn.classList.remove('hidden');
+                logoutBtn.classList.add('hidden');
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+
+        // Inicia a aplicação carregando os livros e o carrinho
+        window.addEventListener('load', () => {
+            renderBooks(predefinedBooks);
+            renderGenreButtons();
+            loadCartFromLocalStorage();
+            updateLoginUI();
+        });
+
+        // Open/Close Modals
+        cartIconBtn.addEventListener('click', () => {
+            cartModal.classList.remove('hidden');
+        });
+        closeDetailsBtn.addEventListener('click', () => detailsModal.classList.add('hidden'));
+        closeCartBtn.addEventListener('click', () => cartModal.classList.add('hidden'));
+        closeModalBtn.addEventListener('click', () => checkoutModal.classList.add('hidden'));
+        loginBtn.addEventListener('click', () => {
+            toggleAuthMode();
+            authModal.classList.remove('hidden');
+        });
+        closeAuthBtn.addEventListener('click', () => authModal.classList.add('hidden'));
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('isLoggedIn');
+            updateLoginUI();
+            showMessage("Você saiu da sua conta.");
+        });
+        
+        // Add to Cart from details modal
+        detailsAddBtn.addEventListener('click', () => {
+            const bookId = parseInt(detailsAddBtn.dataset.bookId);
+            const book = predefinedBooks.find(b => b.id === bookId);
+            if (book) {
+                addToCart(book);
+            }
+            detailsModal.classList.add('hidden');
+        });
+
+        // Checkout from Cart
+        checkoutFromCartBtn.addEventListener('click', () => {
+            cartModal.classList.add('hidden');
+            checkoutModal.classList.remove('hidden');
+        });
+
+        // Checkout confirmation (on the checkout modal)
+        checkoutModal.querySelector('img').addEventListener('click', () => {
+            handleCheckout();
+        });
+        
+        // Link para alternar entre login e registro
+        toggleAuthLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleAuthMode();
+        });
+
+        // Handle login/register form submission
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const users = JSON.parse(localStorage.getItem('users')) || {
+                "admin@livraria.com": "senha123" // Usuário padrão
+            };
+            authErrorMessage.classList.add('hidden');
+
+            if (isLoginMode) {
+                // Lógica de LOGIN
+                if (users[email] && users[email] === password) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    updateLoginUI();
+                    authModal.classList.add('hidden');
+                    showMessage("Login realizado com sucesso!");
+                } else {
+                    authErrorMessage.textContent = "E-mail ou senha incorretos.";
+                    authErrorMessage.classList.remove('hidden');
+                }
+            } else {
+                // Lógica de REGISTRO
+                if (password !== confirmPassword) {
+                    authErrorMessage.textContent = "As senhas não coincidem.";
+                    authErrorMessage.classList.remove('hidden');
+                    return;
+                }
+                if (users[email]) {
+                    authErrorMessage.textContent = "Este e-mail já está em uso.";
+                    authErrorMessage.classList.remove('hidden');
+                    return;
+                }
+                
+                // Simula o registro salvando no localStorage
+                users[email] = password;
+                localStorage.setItem('users', JSON.stringify(users));
+                showMessage("Conta criada com sucesso! Você já pode fazer login.");
+                toggleAuthMode();
+            }
+        });
+    </script>
+</body>
+</html>
