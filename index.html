@@ -11,11 +11,29 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
+            background-color: #f7f3f2;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: #000;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
         }
     </style>
 </head>
@@ -30,6 +48,7 @@
         <div class="absolute top-4 right-4 sm:right-8 flex items-center space-x-2">
             <button id="admin-btn" class="bg-blue-200 text-blue-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-blue-300 transition hidden">Admin</button>
             <button id="logout-btn" class="bg-gray-200 text-gray-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-gray-300 transition hidden">Sair</button>
+            <button id="login-btn" class="bg-blue-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition">Login</button>
         </div>
         <div class="absolute top-1/2 right-4 sm:right-8 transform -translate-y-1/2 flex items-center space-x-2">
             <button id="cart-icon-btn" class="bg-emerald-600 text-white p-3 rounded-full shadow-lg hover:bg-emerald-700 transition">
@@ -92,7 +111,7 @@
                 <span id="cart-total" class="text-3xl font-bold text-emerald-600">R$ 0,00</span>
             </div>
             <!-- Botão de checkout só aparece se o carrinho não estiver vazio -->
-            <button id="checkout-from-cart-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105 mt-6">
+            <button id="checkout-from-cart-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105 mt-6 hidden">
                 Finalizar Compra
             </button>
         </div>
@@ -222,7 +241,11 @@
             { id: 4, title: "Gibis do Cascão", price: 30.00, imageUrl: "https://i.imgur.com/G1B0ex7.png", genre: "HQ", description: "Mergulhe no universo hilário e, sim, limpinho, do Cascão! Esta edição especial reúne as melhores e mais engraçadas histórias do personagem mais avesso à água da Turma da Mônica. Com aventuras cheias de criatividade e trapalhadas, os gibis do Cascão são uma garantia de diversão para todas as idades, provando que a amizade e a alegria podem superar qualquer medo de banho." },
             { id: 5, title: "Manoel de Barros", price: 10.00, imageUrl: "https://i.imgur.com/waPqQOz.png", genre: "Poesia", description: "Através da lente poética de Manoel de Barros, o leitor é convidado a enxergar o mundo sob uma nova luz. Este livro é uma ode à simplicidade, à natureza e à infância da linguagem. Com uma escrita que subverte as regras gramaticais e celebra a pureza dos seres e objetos, o autor nos ensina a 'desinventar' as coisas e a encontrar a poesia no lixo, no rio, no ser de cada um." },
             { id: 7, title: "O Corpo Fala", price: 20.00, imageUrl: "https://i.imgur.com/nQnznHD.png", genre: "Psicologia", description: "Um clássico da comunicação não verbal, 'O Corpo Fala' é um guia indispensável para entender as mensagens ocultas por trás de nossos gestos, posturas e expressões faciais. Repleto de ilustrações e análises detalhadas, o livro desvenda como nosso corpo reflete nossos pensamentos e emoções, permitindo-nos decifrar a nós mesmos e aos outros. Uma ferramenta poderosa para aprimorar relacionamentos pessoais e profissionais." },
-            { id: 8, title: "A Dieta Ideal", price: 15.00, imageUrl: "https://i.imgur.com/aw1TJtg.png", genre: "Saúde", description: "Em 'A Dieta Ideal', o autor desmistifica os conceitos sobre alimentação saudável e apresenta um guia prático e acessível para quem busca uma vida mais equilibrada. O livro aborda temas como nutrição consciente, a importância dos macro e micronutrientes e a criação de hábitos sustentáveis, mostrando que uma dieta ideal é aquela que se adapta ao seu corpo, não o contrário." }
+            { id: 8, title: "A Dieta Ideal", price: 15.00, imageUrl: "https://i.imgur.com/aw1TJtg.png", genre: "Saúde", description: "Em 'A Dieta Ideal', o autor desmistifica os conceitos sobre alimentação saudável e apresenta um guia prático e acessível para quem busca uma vida mais equilibrada. O livro aborda temas como nutrição consciente, a importância dos macro e micronutrientes e a criação de hábitos sustentáveis, mostrando que uma dieta ideal é aquela que se adapta ao seu corpo, não o contrário." },
+            { id: 9, title: "A Coragem de Ser Imperfeito", price: 25.00, imageUrl: "https://i.imgur.com/fJq3M1c.png", genre: "Psicologia", description: "Uma poderosa leitura que nos desafia a abraçar nossas vulnerabilidades e imperfeições. Brené Brown nos guia por um caminho de autoaceitação e resiliência, mostrando que a verdadeira coragem reside em sermos autênticos. Essencial para quem busca aprofundar seu autoconhecimento e construir conexões mais genuínas." },
+            { id: 10, title: "1984", price: 35.00, imageUrl: "https://i.imgur.com/rN4g95Z.png", genre: "Ficção", description: "Um clássico distópico que ecoa com força nos dias atuais. George Orwell nos apresenta um futuro sombrio, onde a vigilância total e a manipulação da verdade são a norma. '1984' é um alerta atemporal sobre os perigos do totalitarismo e a importância de defender a liberdade de pensamento e a individualidade." },
+            { id: 11, title: "O Pequeno Príncipe", price: 18.00, imageUrl: "https://i.imgur.com/lM5xVqE.png", genre: "Infantil", description: "Uma obra-prima atemporal que nos ensina a ver o mundo com o coração. Através de sua narrativa poética e personagens inesquecíveis, o livro explora temas como amizade, amor e a busca pelo sentido da vida. Um tesouro para leitores de todas as idades." },
+            { id: 12, title: "Sapiens: Uma Breve História da Humanidade", price: 40.00, imageUrl: "https://i.imgur.com/U58X47Z.png", genre: "História", description: "Yuval Noah Harari nos leva a uma fascinante viagem no tempo, desde o surgimento do Homo sapiens até os dias de hoje. O autor questiona as narrativas que moldaram a humanidade e nos faz refletir sobre quem somos e para onde vamos. Uma leitura obrigatória para quem deseja compreender as complexidades de nossa espécie." }
         ];
 
         // Referências aos elementos do DOM
@@ -246,540 +269,7 @@
         const checkoutTotalSpan = document.getElementById('checkout-total');
         const pixQrCodeImg = document.getElementById('pix-qr-code');
         const logoutBtn = document.getElementById('logout-btn');
+        const loginBtn = document.getElementById('login-btn');
         const adminBtn = document.getElementById('admin-btn');
 
-        // Referências do novo modal de autenticação
-        const authModal = document.getElementById('auth-modal');
-        const closeAuthBtn = document.getElementById('close-auth-btn');
-        const authTitle = document.getElementById('auth-title');
-        const authForm = document.getElementById('auth-form');
-        const authSwitchBtn = document.getElementById('auth-switch-btn');
-        const authSwitchText = document.getElementById('auth-switch-text');
-        const authSubmitBtn = document.getElementById('auth-submit-btn');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const nameField = document.getElementById('name-field');
-        const phoneField = document.getElementById('phone-field');
-        const fullNameInput = document.getElementById('full-name');
-        const phoneNumberInput = document.getElementById('phone-number');
-
-        // Referências do modal de administração
-        const adminModal = document.getElementById('admin-modal');
-        const closeAdminBtn = document.getElementById('close-admin-btn');
-        const usersList = document.getElementById('users-list');
-        const ordersList = document.getElementById('orders-list');
-        const genreButtonsContainer = document.getElementById('genre-buttons');
-
-        let isLoginMode = true;
-
-        // Message Box function to avoid `alert()`
-        function showMessage(message, duration = 3000) {
-            messageBox.textContent = message;
-            messageBox.classList.remove('hidden');
-            messageBox.classList.add('opacity-100');
-            setTimeout(() => {
-                messageBox.classList.remove('opacity-100');
-                messageBox.classList.add('opacity-0');
-                setTimeout(() => {
-                    messageBox.classList.add('hidden');
-                }, 300);
-            }, duration);
-        }
-
-        // --- FIREBASE INTEGRATION ---
-
-        // Handle user authentication
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                userId = user.uid;
-                logoutBtn.classList.remove('hidden');
-                console.log("User authenticated:", userId);
-                // Pre-populate the public books collection if it's empty
-                await seedBooks();
-                // Start listening for book and cart data
-                listenForBooks();
-                listenForCart();
-
-                if (user.email === ADMIN_EMAIL) {
-                    adminBtn.classList.remove('hidden');
-                    console.log("Admin user logged in.");
-                    // Start listening for admin data (users and orders)
-                    listenForAdminData();
-                } else {
-                    adminBtn.classList.add('hidden');
-                }
-            } else {
-                userId = null;
-                logoutBtn.classList.add('hidden');
-                adminBtn.classList.add('hidden');
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                }
-            }
-        });
-
-        // Seed the public books collection
-        async function seedBooks() {
-            const booksCollectionRef = collection(db, "artifacts", appId, "public", "data", "books");
-            const snapshot = await getCountFromServer(booksCollectionRef);
-            if (snapshot.data().count === 0) {
-                console.log("Seeding books collection...");
-                for (const book of predefinedBooks) {
-                    await setDoc(doc(booksCollectionRef, String(book.id)), book);
-                }
-            }
-        }
-
-        // Listen for real-time updates to the public books collection
-        function listenForBooks() {
-            const booksCollectionRef = collection(db, "artifacts", appId, "public", "data", "books");
-            onSnapshot(booksCollectionRef, (snapshot) => {
-                books = snapshot.docs.map(doc => doc.data());
-                console.log("Books updated:", books);
-                renderBooks(books);
-                renderGenreButtons();
-            }, (error) => {
-                console.error("Error listening to books collection:", error);
-                showMessage("Erro ao carregar os livros. Tente novamente.");
-            });
-        }
-
-        // Listen for real-time updates to the user's cart
-        function listenForCart() {
-            if (!userId) {
-                cartItems = [];
-                updateCartDisplay();
-                return;
-            }
-            const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
-            onSnapshot(cartRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const cartData = docSnap.data();
-                    try {
-                        cartItems = JSON.parse(cartData.items);
-                    } catch (e) {
-                        console.error("Failed to parse cart data:", e);
-                        cartItems = [];
-                    }
-                } else {
-                    cartItems = [];
-                }
-                updateCartDisplay();
-            }, (error) => {
-                console.error("Error listening to cart:", error);
-                showMessage("Erro ao carregar o carrinho.");
-            });
-        }
-
-        // Listen for real-time updates for admin data
-        function listenForAdminData() {
-            const usersRef = collection(db, "artifacts", appId, "public", "data", "users_public_data");
-            onSnapshot(usersRef, (snapshot) => {
-                const users = snapshot.docs.map(doc => doc.data());
-                renderUsers(users);
-            }, (error) => {
-                console.error("Error listening to users:", error);
-                showMessage("Erro ao carregar lista de usuários.");
-            });
-            const ordersRef = collection(db, "artifacts", appId, "public", "data", "orders");
-            onSnapshot(ordersRef, (snapshot) => {
-                const orders = snapshot.docs.map(doc => doc.data());
-                renderOrders(orders);
-            }, (error) => {
-                console.error("Error listening to orders:", error);
-                showMessage("Erro ao carregar histórico de pedidos.");
-            });
-        }
-
-        // Add item to cart and save to Firestore
-        async function addToCart(book) {
-            if (!userId) {
-                showMessage("Você precisa estar logado para adicionar itens ao carrinho.");
-                authModal.classList.remove('hidden');
-                return;
-            }
-            const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
-            try {
-                const docSnap = await getDoc(cartRef);
-                let currentCartItems = [];
-                if (docSnap.exists()) {
-                    currentCartItems = JSON.parse(docSnap.data().items);
-                }
-
-                const existingItem = currentCartItems.find(item => item.id === book.id);
-                if (existingItem) {
-                    existingItem.quantity++;
-                } else {
-                    currentCartItems.push({ ...book, quantity: 1 });
-                }
-
-                await setDoc(cartRef, { items: JSON.stringify(currentCartItems) });
-                showMessage(`${book.title} adicionado ao carrinho!`);
-            } catch (error) {
-                console.error("Error adding to cart:", error);
-                showMessage("Erro ao adicionar item ao carrinho.");
-            }
-        }
-
-        // Remove item from cart and save to Firestore
-        async function removeFromCart(bookId) {
-            if (!userId) {
-                return;
-            }
-            const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
-            try {
-                const docSnap = await getDoc(cartRef);
-                if (docSnap.exists()) {
-                    let currentCartItems = JSON.parse(docSnap.data().items);
-                    currentCartItems = currentCartItems.filter(item => item.id !== bookId);
-                    await setDoc(cartRef, { items: JSON.stringify(currentCartItems) });
-                    showMessage("Item removido do carrinho.");
-                }
-            } catch (error) {
-                console.error("Error removing from cart:", error);
-                showMessage("Erro ao remover item do carrinho.");
-            }
-        }
-
-        // Update cart display (count on icon) from Firestore
-        function updateCartDisplay() {
-            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = totalItems;
-            
-            // Render cart modal items and total
-            cartItemsContainer.innerHTML = '';
-            if (cartItems.length > 0) {
-                renderCartItems(cartItems);
-                checkoutFromCartBtn.classList.remove('hidden');
-            } else {
-                cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
-                cartTotalSpan.textContent = 'R$ 0,00';
-                checkoutFromCartBtn.classList.add('hidden');
-            }
-        }
-
-        // Function to animate the book image to the cart
-        function flyToCart(startElement, imageUrl) {
-            const startRect = startElement.getBoundingClientRect();
-            const endRect = cartIconBtn.getBoundingClientRect();
-            
-            const animatedImage = document.createElement('img');
-            animatedImage.src = imageUrl;
-            animatedImage.className = 'absolute z-50 w-12 h-16 rounded-md object-cover transition-all duration-700 ease-in-out';
-            animatedImage.style.top = `${startRect.top}px`;
-            animatedImage.style.left = `${startRect.left}px`;
-            
-            document.body.appendChild(animatedImage);
-
-            setTimeout(() => {
-                animatedImage.style.top = `${endRect.top}px`;
-                animatedImage.style.left = `${endRect.left}px`;
-                animatedImage.style.transform = 'scale(0.2)';
-                animatedImage.style.opacity = '0';
-            }, 10);
-
-            animatedImage.addEventListener('transitionend', () => {
-                animatedImage.remove();
-            });
-        }
-
-        // Renderiza os livros na página a partir do array 'books' do Firestore
-        function renderBooks(booksToRender) {
-            bookGrid.innerHTML = '';
-            if (booksToRender.length === 0) {
-                bookGrid.innerHTML = '<p class="text-center text-gray-800 col-span-full">Nenhum livro encontrado para este gênero.</p>';
-                return;
-            }
-            booksToRender.forEach(book => {
-                const bookCard = document.createElement('div');
-                bookCard.className = "bg-white rounded-xl shadow-lg hover:shadow-xl flex flex-col transition-all duration-300 overflow-hidden cursor-pointer book-card";
-                
-                bookCard.innerHTML = `
-                    <div class="h-64 sm:h-80 w-full overflow-hidden book-image-container">
-                        <img src="${book.imageUrl}" alt="Capa do livro ${book.title}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110 book-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/E5E7EB/4B5563?text=Imagem+N%C3%A3o+Dispon%C3%ADvel';">
-                    </div>
-                    <div class="p-4 flex flex-col items-center text-center flex-grow">
-                        <h3 class="text-xl font-semibold text-gray-900 line-clamp-2">${book.title}</h3>
-                        <p class="text-gray-600 mt-1 mb-3 line-clamp-2">${book.description}</p>
-                        <div class="flex-grow"></div>
-                        <p class="text-2xl font-bold text-gray-800 mb-4">R$ ${book.price.toFixed(2)}</p>
-                        <button class="add-to-cart-btn w-full bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-emerald-700 transition-colors">
-                            Adicionar ao Carrinho
-                        </button>
-                    </div>
-                `;
-                
-                // Event listener para abrir o modal de detalhes
-                bookCard.querySelector('.book-image-container').addEventListener('click', () => {
-                    detailsBookImage.src = book.imageUrl;
-                    detailsBookTitle.textContent = book.title;
-                    detailsBookDescription.textContent = book.description;
-                    detailsBookPrice.textContent = `R$ ${book.price.toFixed(2)}`;
-                    detailsAddBtn.dataset.bookId = book.id;
-                    detailsModal.classList.remove('hidden');
-                });
-
-                // Event listener para adicionar ao carrinho a partir do grid
-                bookCard.querySelector('.add-to-cart-btn').addEventListener('click', (e) => {
-                    e.stopPropagation(); // Previne que o clique no botão abra o modal de detalhes
-                    flyToCart(bookCard.querySelector('.book-image-container'), book.imageUrl);
-                    addToCart(book);
-                });
-
-                bookGrid.appendChild(bookCard);
-            });
-        }
-
-        // Renderiza os botões de gênero
-        function renderGenreButtons() {
-            const genres = [...new Set(books.map(book => book.genre))];
-            genreButtonsContainer.innerHTML = '';
-            
-            // Botão "Todos"
-            const allBtn = document.createElement('button');
-            allBtn.textContent = 'Todos';
-            allBtn.className = 'text-white bg-emerald-600 hover:bg-emerald-700 transition font-bold px-4 py-2 rounded-full shadow-lg text-sm';
-            allBtn.addEventListener('click', () => renderBooks(books));
-            genreButtonsContainer.appendChild(allBtn);
-
-            genres.forEach(genre => {
-                const genreBtn = document.createElement('button');
-                genreBtn.textContent = genre;
-                genreBtn.className = 'text-white bg-emerald-600 hover:bg-emerald-700 transition font-bold px-4 py-2 rounded-full shadow-lg text-sm';
-                genreBtn.addEventListener('click', () => {
-                    const filteredBooks = books.filter(book => book.genre === genre);
-                    renderBooks(filteredBooks);
-                });
-                genreButtonsContainer.appendChild(genreBtn);
-            });
-        }
-
-        // Renderiza os itens do carrinho no modal
-        function renderCartItems(items) {
-            cartItemsContainer.innerHTML = '';
-            let total = 0;
-            items.forEach(item => {
-                total += item.price * item.quantity;
-                const cartItemDiv = document.createElement('div');
-                cartItemDiv.className = "flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm";
-                cartItemDiv.innerHTML = `
-                    <div class="flex items-center space-x-4">
-                        <img src="${item.imageUrl}" alt="${item.title}" class="w-12 h-16 object-cover rounded-md">
-                        <div>
-                            <p class="font-semibold text-sm">${item.title}</p>
-                            <p class="text-xs text-gray-500">Quantidade: ${item.quantity}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm font-bold">R$ ${(item.price * item.quantity).toFixed(2)}</span>
-                        <button class="remove-from-cart-btn text-red-500 hover:text-red-700 transition" data-book-id="${item.id}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </div>
-                `;
-                cartItemsContainer.appendChild(cartItemDiv);
-            });
-            cartTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
-            checkoutTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
-            document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const bookId = parseInt(e.currentTarget.dataset.bookId);
-                    removeFromCart(bookId);
-                });
-            });
-        }
-
-        // Renderiza a lista de usuários para o admin
-        function renderUsers(users) {
-            usersList.innerHTML = '';
-            if (users.length === 0) {
-                usersList.innerHTML = '<p class="text-center text-gray-500">Nenhum usuário encontrado.</p>';
-            } else {
-                users.forEach(user => {
-                    const userDiv = document.createElement('div');
-                    userDiv.className = "bg-gray-50 p-4 rounded-lg shadow-sm";
-                    userDiv.innerHTML = `
-                        <p class="font-semibold">${user.name}</p>
-                        <p class="text-sm text-gray-600">Email: ${user.email}</p>
-                        <p class="text-xs text-gray-500">ID: ${user.id}</p>
-                    `;
-                    usersList.appendChild(userDiv);
-                });
-            }
-        }
-
-        // Renderiza o histórico de pedidos para o admin
-        function renderOrders(orders) {
-            ordersList.innerHTML = '';
-            if (orders.length === 0) {
-                ordersList.innerHTML = '<p class="text-center text-gray-500">Nenhum pedido encontrado.</p>';
-            } else {
-                orders.forEach(order => {
-                    const orderDiv = document.createElement('div');
-                    orderDiv.className = "bg-gray-50 p-4 rounded-lg shadow-sm";
-                    const formattedDate = new Date(order.timestamp).toLocaleString();
-                    const itemsHtml = order.items.map(item => `
-                        <p class="text-sm ml-4">- ${item.title} (${item.quantity}x)</p>
-                    `).join('');
-                    orderDiv.innerHTML = `
-                        <p class="font-semibold">Pedido de ${order.userName} - Total: R$ ${order.total.toFixed(2)}</p>
-                        <p class="text-xs text-gray-500">Data: ${formattedDate}</p>
-                        <div class="mt-2">Itens:</div>
-                        ${itemsHtml}
-                    `;
-                    ordersList.appendChild(orderDiv);
-                });
-            }
-        }
-
-        // Handle Checkout
-        async function handleCheckout() {
-            if (!userId || cartItems.length === 0) {
-                showMessage("Seu carrinho está vazio.");
-                return;
-            }
-
-            try {
-                const ordersCollectionRef = collection(db, "artifacts", appId, "public", "data", "orders");
-                const userDoc = await getDoc(doc(db, "artifacts", appId, "public", "data", "users_public_data", userId));
-                const userName = userDoc.exists() ? userDoc.data().name : 'Usuário Anônimo';
-                const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-                await addDoc(ordersCollectionRef, {
-                    userId: userId,
-                    userName: userName,
-                    items: cartItems,
-                    total: total,
-                    timestamp: new Date().toISOString()
-                });
-
-                // Clear cart after checkout
-                const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
-                await setDoc(cartRef, { items: JSON.stringify([]) });
-
-                showMessage("Pedido finalizado com sucesso! Agradecemos a sua compra.");
-                cartModal.classList.add('hidden');
-            } catch (error) {
-                console.error("Error finalizing checkout:", error);
-                showMessage("Erro ao finalizar a compra. Tente novamente.");
-            }
-        }
-
-        // --- EVENT LISTENERS ---
-
-        // Open/Close Modals
-        cartIconBtn.addEventListener('click', () => {
-            if (!userId) {
-                showMessage("Você precisa estar logado para ver o carrinho.");
-                authModal.classList.remove('hidden');
-                return;
-            }
-            cartModal.classList.remove('hidden');
-        });
-        closeDetailsBtn.addEventListener('click', () => detailsModal.classList.add('hidden'));
-        closeCartBtn.addEventListener('click', () => cartModal.classList.add('hidden'));
-        closeModalBtn.addEventListener('click', () => checkoutModal.classList.add('hidden'));
-        closeAuthBtn.addEventListener('click', () => authModal.classList.add('hidden'));
-        closeAdminBtn.addEventListener('click', () => adminModal.classList.add('hidden'));
-
-        // Add to Cart from details modal
-        detailsAddBtn.addEventListener('click', () => {
-            const bookId = parseInt(detailsAddBtn.dataset.bookId);
-            const book = books.find(b => b.id === bookId);
-            if (book) {
-                addToCart(book);
-            }
-            detailsModal.classList.add('hidden');
-        });
-
-        // Toggle Auth Modal (Login/Signup)
-        authSwitchBtn.addEventListener('click', () => {
-            isLoginMode = !isLoginMode;
-            if (isLoginMode) {
-                authTitle.textContent = "Acesse sua Conta";
-                authSubmitBtn.textContent = "Acessar";
-                authSwitchText.textContent = "Não tem uma conta?";
-                authSwitchBtn.textContent = "Cadastre-se";
-                nameField.classList.add('hidden');
-                phoneField.classList.add('hidden');
-            } else {
-                authTitle.textContent = "Crie sua Conta";
-                authSubmitBtn.textContent = "Cadastrar";
-                authSwitchText.textContent = "Já tem uma conta?";
-                authSwitchBtn.textContent = "Acesse";
-                nameField.classList.remove('hidden');
-                phoneField.classList.remove('hidden');
-            }
-        });
-
-        // Handle Auth Form Submission
-        authForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            try {
-                if (isLoginMode) {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    showMessage("Login realizado com sucesso!");
-                } else {
-                    const fullName = fullNameInput.value;
-                    const phoneNumber = phoneNumberInput.value;
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    await updateProfile(userCredential.user, { displayName: fullName });
-                    
-                    // Save user data to a public collection for admin to view
-                    const usersPublicRef = doc(db, "artifacts", appId, "public", "data", "users_public_data", userCredential.user.uid);
-                    await setDoc(usersPublicRef, {
-                        id: userCredential.user.uid,
-                        name: fullName,
-                        email: email,
-                        phoneNumber: phoneNumber,
-                        joinedAt: new Date().toISOString()
-                    });
-                    
-                    showMessage("Cadastro realizado com sucesso!");
-                }
-                authModal.classList.add('hidden');
-            } catch (error) {
-                console.error("Auth Error:", error);
-                if (error.code === 'auth/email-already-in-use') {
-                    showMessage("Este e-mail já está em uso.");
-                } else if (error.code === 'auth/invalid-email' || error.code === 'auth/weak-password') {
-                    showMessage("E-mail ou senha inválidos.");
-                } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                    showMessage("E-mail ou senha incorretos.");
-                } else {
-                    showMessage("Erro de autenticação. Tente novamente.");
-                }
-            }
-        });
-
-        // Admin and Logout buttons
-        adminBtn.addEventListener('click', () => {
-            adminModal.classList.remove('hidden');
-        });
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-                showMessage("Você saiu da sua conta.");
-            } catch (error) {
-                console.error("Logout Error:", error);
-                showMessage("Erro ao sair.");
-            }
-        });
-
-        // Checkout from Cart
-        checkoutFromCartBtn.addEventListener('click', () => {
-            cartModal.classList.add('hidden');
-            checkoutModal.classList.remove('hidden');
-        });
-
-        // Checkout confirmation (on the checkout modal)
-        checkoutModal.querySelector('img').addEventListener('click', () => {
-            handleCheckout();
-        });
-    </script>
-</body>
-</html>
+        // Referências do novo modal
