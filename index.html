@@ -1,747 +1,785 @@
 <!DOCTYPE html>
- <html lang="pt-br">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Minha Livraria Online</title>
-     <script src="https://cdn.tailwindcss.com"></script>
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-     <style>
-         body {
-             font-family: 'Inter', sans-serif;
-             background-color: #ffffff;
-             background-size: cover;
-             background-position: center;
-             background-attachment: fixed;
-             color: #000;
-         }
-     </style>
- </head>
- <body class="min-h-screen flex flex-col items-center p-4 transition-all duration-500">
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Livraria Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #000;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4 transition-all duration-500">
 
-     <!-- Header -->
-     <header class="w-full max-w-5xl text-center py-8 relative">
-         <div class="absolute top-1/2 left-4 sm:left-8 transform -translate-y-1/2 flex flex-col items-start space-y-2 sm:space-y-4" id="genre-buttons">
-             <!-- Botões de gêneros serão injetados aqui via JavaScript -->
-         </div>
-         <img src="https://i.imgur.com/nTXYYLi.png" alt="Logo AchadoTeca" class="mx-auto w-64 sm:w-80 mb-2">
-         <div class="absolute top-4 right-4 sm:right-8 flex items-center space-x-2">
-             <button id="admin-btn" class="bg-blue-200 text-blue-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-blue-300 transition hidden">Admin</button>
-             <button id="logout-btn" class="bg-gray-200 text-gray-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-gray-300 transition hidden">Sair</button>
-         </div>
-         <div class="absolute top-1/2 right-4 sm:right-8 transform -translate-y-1/2 flex items-center space-x-2">
-             <button id="cart-icon-btn" class="bg-emerald-600 text-white p-3 rounded-full shadow-lg hover:bg-emerald-700 transition">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-1.5 9H6M6 15h12m-3-6H9m-3 6l2.25-4.5H18M12 18a2 2 0 100 4 2 2 0 000-4z" />
-                 </svg>
-                 <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full -translate-x-1/2 -translate-y-1/2">0</span>
-             </button>
-         </div>
-     </header>
+    <!-- Header -->
+    <header class="w-full max-w-5xl text-center py-8 relative">
+        <div class="absolute top-1/2 left-4 sm:left-8 transform -translate-y-1/2 flex flex-col items-start space-y-2 sm:space-y-4" id="genre-buttons">
+            <!-- Botões de gêneros serão injetados aqui via JavaScript -->
+        </div>
+        <img src="https://i.imgur.com/nTXYYLi.png" alt="Logo AchadoTeca" class="mx-auto w-64 sm:w-80 mb-2">
+        <div class="absolute top-4 right-4 sm:right-8 flex items-center space-x-2">
+            <button id="admin-btn" class="bg-blue-200 text-blue-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-blue-300 transition hidden">Admin</button>
+            <button id="logout-btn" class="bg-gray-200 text-gray-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-gray-300 transition hidden">Sair</button>
+        </div>
+        <div class="absolute top-1/2 right-4 sm:right-8 transform -translate-y-1/2 flex items-center space-x-2">
+            <button id="cart-icon-btn" class="bg-emerald-600 text-white p-3 rounded-full shadow-lg hover:bg-emerald-700 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-1.5 9H6M6 15h12m-3-6H9m-3 6l2.25-4.5H18M12 18a2 2 0 100 4 2 2 0 000-4z" />
+                </svg>
+                <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full -translate-x-1/2 -translate-y-1/2">0</span>
+            </button>
+        </div>
+    </header>
 
-     <!-- Main Content - Book Grid -->
-     <main class="w-full max-w-5xl">
-         <div id="book-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-             <p class="text-center text-gray-800 col-span-full">Carregando livros...</p>
-         </div>
-     </main>
+    <!-- Main Content - Book Grid -->
+    <main class="w-full max-w-5xl">
+        <div id="book-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
+            <p class="text-center text-gray-800 col-span-full">Carregando livros...</p>
+        </div>
+    </main>
 
-     <!-- Modal de Detalhes do Livro -->
-     <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
-         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
-             <div class="flex justify-between items-center mb-6">
-                 <h2 class="text-2xl font-bold text-gray-800">Detalhes do Livro</h2>
-                 <button id="close-details-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                     </svg>
-                 </button>
-             </div>
-             <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8">
-                 <img id="details-book-image" src="" alt="Capa do livro" class="w-48 h-64 object-cover rounded-md shadow-lg">
-                 <div class="text-center sm:text-left">
-                     <h3 id="details-book-title" class="text-xl sm:text-2xl font-bold text-gray-900 mb-2"></h3>
-                     <p id="details-book-description" class="text-gray-700 mb-4"></p>
-                     <p id="details-book-price" class="text-3xl font-bold text-emerald-600 mb-4"></p>
-                     <button id="details-add-to-cart-btn" class="w-full sm:w-auto bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition">
-                         Adicionar ao Carrinho
-                     </button>
-                 </div>
-             </div>
-         </div>
-     </div>
+    <!-- Modal de Detalhes do Livro -->
+    <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
+        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Detalhes do Livro</h2>
+                <button id="close-details-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8">
+                <img id="details-book-image" src="" alt="Capa do livro" class="w-48 h-64 object-cover rounded-md shadow-lg">
+                <div class="text-center sm:text-left">
+                    <h3 id="details-book-title" class="text-xl sm:text-2xl font-bold text-gray-900 mb-2"></h3>
+                    <p id="details-book-description" class="text-gray-700 mb-4"></p>
+                    <p id="details-book-price" class="text-3xl font-bold text-emerald-600 mb-4"></p>
+                    <button id="details-add-to-cart-btn" class="w-full sm:w-auto bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition">
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-     <!-- Modal de Carrinho -->
-     <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
-         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
-             <div class="flex justify-between items-center mb-6">
-                 <h2 class="text-2xl font-bold text-gray-800">Seu Carrinho</h2>
-                 <button id="close-cart-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                     </svg>
-                 </button>
-             </div>
-             <div id="cart-items" class="space-y-4">
-                 <!-- Itens do carrinho serão injetados aqui -->
-             </div>
-             <div class="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center">
-                 <span class="text-xl font-bold text-gray-800">Total:</span>
-                 <span id="cart-total" class="text-3xl font-bold text-emerald-600">R$ 0,00</span>
-             </div>
-             <!-- Botão de checkout só aparece se o carrinho não estiver vazio -->
-             <button id="checkout-from-cart-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105 mt-6">
-                 Finalizar Compra
-             </button>
-         </div>
-     </div>
+    <!-- Modal de Carrinho -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
+        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Seu Carrinho</h2>
+                <button id="close-cart-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="cart-items" class="space-y-4">
+                <!-- Itens do carrinho serão injetados aqui -->
+            </div>
+            <div class="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center">
+                <span class="text-xl font-bold text-gray-800">Total:</span>
+                <span id="cart-total" class="text-3xl font-bold text-emerald-600">R$ 0,00</span>
+            </div>
+            <!-- Botão de checkout só aparece se o carrinho não estiver vazio -->
+            <button id="checkout-from-cart-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105 mt-6">
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
 
-     <!-- Modal de Autenticação (Login/Cadastro) -->
-     <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
-         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
-             <div class="flex justify-between items-center mb-6">
-                 <h2 class="text-2xl font-bold text-gray-800" id="auth-title">Acesse sua Conta</h2>
-                 <button id="close-auth-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                     </svg>
-                 </button>
-             </div>
-             <form id="auth-form" class="space-y-4">
-                 <div id="name-field" class="hidden">
-                     <label for="full-name" class="block text-sm font-medium text-gray-700">Nome Completo</label>
-                     <input type="text" id="full-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
-                 </div>
-                 <div id="phone-field" class="hidden">
-                     <label for="phone-number" class="block text-sm font-medium text-gray-700">Telefone</label>
-                     <input type="tel" id="phone-number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
-                 </div>
-                 <div>
-                     <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
-                     <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
-                 </div>
-                 <div>
-                     <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
-                     <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
-                 </div>
-                 <button type="submit" id="auth-submit-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105">
-                     Acessar
-                 </button>
-             </form>
-             <p class="mt-4 text-center text-gray-600">
-                 <span id="auth-switch-text">Não tem uma conta?</span>
-                 <button id="auth-switch-btn" class="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">
-                     Cadastre-se
-                 </button>
-             </p>
-         </div>
-     </div>
+    <!-- Modal de Autenticação (Login/Cadastro) -->
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
+        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800" id="auth-title">Acesse sua Conta</h2>
+                <button id="close-auth-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="auth-form" class="space-y-4">
+                <div id="name-field" class="hidden">
+                    <label for="full-name" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+                    <input type="text" id="full-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
+                </div>
+                <div id="phone-field" class="hidden">
+                    <label for="phone-number" class="block text-sm font-medium text-gray-700">Telefone</label>
+                    <input type="tel" id="phone-number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
+                    <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
+                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
+                </div>
+                <button type="submit" id="auth-submit-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105">
+                    Acessar
+                </button>
+            </form>
+            <p class="mt-4 text-center text-gray-600">
+                <span id="auth-switch-text">Não tem uma conta?</span>
+                <button id="auth-switch-btn" class="text-emerald-600 hover:text-emerald-700 font-semibold transition-colors">
+                    Cadastre-se
+                </button>
+            </p>
+        </div>
+    </div>
 
-     <!-- Modal de Checkout -->
-     <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
-         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md transform transition-all scale-95 duration-300">
-             <div class="flex justify-between items-center mb-6">
-                 <!-- Título do modal de pagamento alterado para "Pague Aqui" -->
-                 <h2 class="text-2xl font-bold text-gray-800">Pague Aqui</h2>
-                 <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                     </svg>
-                 </button>
-             </div>
-             <!-- Conteúdo de pagamento e retirada atualizado -->
-             <div class="flex flex-col items-center">
-                 <p class="text-lg font-semibold text-black mb-3">Use a câmera do seu celular para digitalizar o código abaixo.</p>
-                 <p class="text-2xl font-bold text-emerald-600 mb-4">Total: <span id="checkout-total">R$ 0,00</span></p>
-                 <!-- O link da imagem do QR code foi atualizado -->
-                 <img id="pix-qr-code" src="https://i.imgur.com/l8tGeCV.jpeg" alt="QR Code Pix" class="w-48 h-48 rounded-lg mt-4 shadow-md">
-                 <!-- Texto "Ou" adicionado antes do número de telefone -->
-                 <p class="mt-4 text-center text-lg text-gray-700">Ou (11) 94060-0244</p>
-                 <!-- A seção de retirada no local foi atualizada com o link para o mapa -->
-                 <div class="mt-8 pt-4 border-t border-gray-200 w-full text-center">
-                     <h3 class="text-xl font-bold text-gray-800 mb-2">RETIRADA NO LOCAL</h3>
-                     <a href="https://maps.app.goo.gl/JWMKfBrjTL3r3aEH8" class="text-gray-700 text-center underline font-semibold hover:text-gray-900 transition-colors" target="_blank">
-                         Ver no mapa
-                     </a>
-                 </div>
-             </div>
-         </div>
-     </div>
+    <!-- Modal de Checkout -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
+        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md transform transition-all scale-95 duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <!-- Título do modal de pagamento alterado para "Pague Aqui" -->
+                <h2 class="text-2xl font-bold text-gray-800">Pague Aqui</h2>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Conteúdo de pagamento e retirada atualizado -->
+            <div class="flex flex-col items-center">
+                <p class="text-lg font-semibold text-black mb-3">Use a câmera do seu celular para digitalizar o código abaixo.</p>
+                <p class="text-2xl font-bold text-emerald-600 mb-4">Total: <span id="checkout-total">R$ 0,00</span></p>
+                <!-- O link da imagem do QR code foi atualizado -->
+                <img id="pix-qr-code" src="https://i.imgur.com/l8tGeCV.jpeg" alt="QR Code Pix" class="w-48 h-48 rounded-lg mt-4 shadow-md">
+                <!-- Texto "Ou" adicionado antes do número de telefone -->
+                <p class="mt-4 text-center text-lg text-gray-700">Ou (11) 94060-0244</p>
+                <!-- A seção de retirada no local foi atualizada com o link para o mapa -->
+                <div class="mt-8 pt-4 border-t border-gray-200 w-full text-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">RETIRADA NO LOCAL</h3>
+                    <a href="https://maps.app.goo.gl/JWMKfBrjTL3r3aEH8" class="text-gray-700 text-center underline font-semibold hover:text-gray-900 transition-colors" target="_blank">
+                        Ver no mapa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-     <!-- Modal de Administração -->
-     <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
-         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
-             <div class="flex justify-between items-center mb-6">
-                 <h2 class="text-2xl font-bold text-gray-800">Painel de Administração</h2>
-                 <button id="close-admin-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                     </svg>
-                 </button>
-             </div>
-             <h3 class="text-xl font-semibold text-gray-900 mb-4">Usuários Cadastrados</h3>
-             <div id="users-list" class="space-y-4">
-                 <p class="text-center text-gray-500">Carregando dados dos usuários...</p>
-             </div>
-             <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Histórico de Pedidos</h3>
-             <div id="orders-list" class="space-y-4">
-                 <p class="text-center text-gray-500">Carregando histórico de pedidos...</p>
-             </div>
-         </div>
-     </div>
+    <!-- Modal de Administração -->
+    <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
+        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Painel de Administração</h2>
+                <button id="close-admin-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Usuários Cadastrados</h3>
+            <div id="users-list" class="space-y-4">
+                <p class="text-center text-gray-500">Carregando dados dos usuários...</p>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Histórico de Pedidos</h3>
+            <div id="orders-list" class="space-y-4">
+                <p class="text-center text-gray-500">Carregando histórico de pedidos...</p>
+            </div>
+        </div>
+    </div>
 
-     <!-- Message Box -->
-     <div id="message-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-800 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 z-50"></div>
+    <!-- Message Box -->
+    <div id="message-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-800 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 z-50"></div>
 
-     <script type="module">
-         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-         import { getAuth, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-         import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, getCountFromServer, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-         
-         // Global variables provided by the environment
-         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-         const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-         const ADMIN_EMAIL = "admin@livraria.com";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, getCountFromServer, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // Global variables provided by the environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        const ADMIN_EMAIL = "admin@livraria.com";
 
-         // Initialize Firebase
-         const app = initializeApp(firebaseConfig);
-         const db = getFirestore(app);
-         const auth = getAuth(app);
-         let userId = null;
-         let books = [];
-         let cartItems = [];
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        let userId = null;
+        let books = [];
+        let cartItems = [];
 
-         // Pre-defined book data for seeding the database
-         const predefinedBooks = [
-             { id: 1, title: "Adolescências, Juventudes e Participação", price: 10.00, imageUrl: "https://i.imgur.com/7expm1g.png", genre: "Sociologia", description: "Uma análise profunda e multifacetada sobre a complexidade das adolescências e juventudes na sociedade contemporânea. O livro explora como a participação ativa dos jovens molda a cultura, a política e as relações sociais, abordando temas como identidade, ativismo digital e os desafios de transição para a vida adulta. Uma leitura essencial para educadores, pesquisadores e todos interessados em compreender a dinâmica da nova geração." },
-             { id: 2, title: "Olhos de Azeviche", price: 10.00, imageUrl: "https://i.imgur.com/z8Lk8HA.png", genre: "Romance", description: "Em 'Olhos de Azeviche', somos levados a uma jornada emocionante através das paisagens e da alma de um protagonista em busca de redenção. A narrativa, rica em detalhes e sentimentos, desvenda um passado misterioso e um futuro incerto, onde o amor se torna o farol em meio à tempestade. Prepare-se para se perder em uma trama de paixão, segredos e a inquebrável força do espírito humano." },
-             { id: 3, title: "Palavras de Encantamento", price: 10.00, imageUrl: "https://i.imgur.com/ozasY0h.png", genre: "Poesia", description: "Uma coletânea de poesias que celebra a beleza singela do cotidiano e a grandiosidade dos sentimentos mais profundos. Com versos que fluem como melodia, o autor nos convida a redescobrir o encanto nas pequenas coisas e a abraçar a magia da linguagem. Cada poema é um convite à reflexão e um portal para um mundo de imaginação e sensibilidade." },
-             { id: 4, title: "Gibis do Cascão", price: 30.00, imageUrl: "https://i.imgur.com/G1B0ex7.png", genre: "HQ", description: "Mergulhe no universo hilário e, sim, limpinho, do Cascão! Esta edição especial reúne as melhores e mais engraçadas histórias do personagem mais avesso à água da Turma da Mônica. Com aventuras cheias de criatividade e trapalhadas, os gibis do Cascão são uma garantia de diversão para todas as idades, provando que a amizade e a alegria podem superar qualquer medo de banho." },
-             { id: 5, title: "Manoel de Barros", price: 10.00, imageUrl: "https://i.imgur.com/waPqQOz.png", genre: "Poesia", description: "Através da lente poética de Manoel de Barros, o leitor é convidado a enxergar o mundo sob uma nova luz. Este livro é uma ode à simplicidade, à natureza e à infância da linguagem. Com uma escrita que subverte as regras gramaticais e celebra a pureza dos seres e objetos, o autor nos ensina a 'desinventar' as coisas e a encontrar a poesia no lixo, no rio, no ser de cada um." },
-             { id: 7, title: "O Corpo Fala", price: 20.00, imageUrl: "https://i.imgur.com/nQnznHD.png", genre: "Psicologia", description: "Um clássico da comunicação não verbal, 'O Corpo Fala' é um guia indispensável para entender as mensagens ocultas por trás de nossos gestos, posturas e expressões faciais. Repleto de ilustrações e análises detalhadas, o livro desvenda como nosso corpo reflete nossos pensamentos e emoções, permitindo-nos decifrar a nós mesmos e aos outros. Uma ferramenta poderosa para aprimorar relacionamentos pessoais e profissionais." },
-             { id: 8, title: "A Dieta Ideal", price: 15.00, imageUrl: "https://i.imgur.com/aw1TJtg.png", genre: "Saúde", description: "Em 'A Dieta Ideal', o autor desmistifica os conceitos sobre alimentação saudável e apresenta um guia prático e acessível para quem busca uma vida mais equilibrada. O livro aborda temas como nutrição consciente, a importância dos macro e micronutrientes e a criação de hábitos sustentáveis, mostrando que uma dieta ideal é aquela que se adapta ao seu corpo, não o contrário." }
-         ];
+        // Pre-defined book data for seeding the database
+        const predefinedBooks = [
+            { id: 1, title: "Adolescências, Juventudes e Participação", price: 10.00, imageUrl: "https://i.imgur.com/7expm1g.png", genre: "Sociologia", description: "Uma análise profunda e multifacetada sobre a complexidade das adolescências e juventudes na sociedade contemporânea. O livro explora como a participação ativa dos jovens molda a cultura, a política e as relações sociais, abordando temas como identidade, ativismo digital e os desafios de transição para a vida adulta. Uma leitura essencial para educadores, pesquisadores e todos interessados em compreender a dinâmica da nova geração." },
+            { id: 2, title: "Olhos de Azeviche", price: 10.00, imageUrl: "https://i.imgur.com/z8Lk8HA.png", genre: "Romance", description: "Em 'Olhos de Azeviche', somos levados a uma jornada emocionante através das paisagens e da alma de um protagonista em busca de redenção. A narrativa, rica em detalhes e sentimentos, desvenda um passado misterioso e um futuro incerto, onde o amor se torna o farol em meio à tempestade. Prepare-se para se perder em uma trama de paixão, segredos e a inquebrável força do espírito humano." },
+            { id: 3, title: "Palavras de Encantamento", price: 10.00, imageUrl: "https://i.imgur.com/ozasY0h.png", genre: "Poesia", description: "Uma coletânea de poesias que celebra a beleza singela do cotidiano e a grandiosidade dos sentimentos mais profundos. Com versos que fluem como melodia, o autor nos convida a redescobrir o encanto nas pequenas coisas e a abraçar a magia da linguagem. Cada poema é um convite à reflexão e um portal para um mundo de imaginação e sensibilidade." },
+            { id: 4, title: "Gibis do Cascão", price: 30.00, imageUrl: "https://i.imgur.com/G1B0ex7.png", genre: "HQ", description: "Mergulhe no universo hilário e, sim, limpinho, do Cascão! Esta edição especial reúne as melhores e mais engraçadas histórias do personagem mais avesso à água da Turma da Mônica. Com aventuras cheias de criatividade e trapalhadas, os gibis do Cascão são uma garantia de diversão para todas as idades, provando que a amizade e a alegria podem superar qualquer medo de banho." },
+            { id: 5, title: "Manoel de Barros", price: 10.00, imageUrl: "https://i.imgur.com/waPqQOz.png", genre: "Poesia", description: "Através da lente poética de Manoel de Barros, o leitor é convidado a enxergar o mundo sob uma nova luz. Este livro é uma ode à simplicidade, à natureza e à infância da linguagem. Com uma escrita que subverte as regras gramaticais e celebra a pureza dos seres e objetos, o autor nos ensina a 'desinventar' as coisas e a encontrar a poesia no lixo, no rio, no ser de cada um." },
+            { id: 7, title: "O Corpo Fala", price: 20.00, imageUrl: "https://i.imgur.com/nQnznHD.png", genre: "Psicologia", description: "Um clássico da comunicação não verbal, 'O Corpo Fala' é um guia indispensável para entender as mensagens ocultas por trás de nossos gestos, posturas e expressões faciais. Repleto de ilustrações e análises detalhadas, o livro desvenda como nosso corpo reflete nossos pensamentos e emoções, permitindo-nos decifrar a nós mesmos e aos outros. Uma ferramenta poderosa para aprimorar relacionamentos pessoais e profissionais." },
+            { id: 8, title: "A Dieta Ideal", price: 15.00, imageUrl: "https://i.imgur.com/aw1TJtg.png", genre: "Saúde", description: "Em 'A Dieta Ideal', o autor desmistifica os conceitos sobre alimentação saudável e apresenta um guia prático e acessível para quem busca uma vida mais equilibrada. O livro aborda temas como nutrição consciente, a importância dos macro e micronutrientes e a criação de hábitos sustentáveis, mostrando que uma dieta ideal é aquela que se adapta ao seu corpo, não o contrário." }
+        ];
 
-         // Referências aos elementos do DOM
-         const bookGrid = document.getElementById('book-grid');
-         const detailsModal = document.getElementById('details-modal');
-         const closeDetailsBtn = document.getElementById('close-details-btn');
-         const detailsBookImage = document.getElementById('details-book-image');
-         const detailsBookTitle = document.getElementById('details-book-title');
-         const detailsBookDescription = document.getElementById('details-book-description');
-         const detailsAddBtn = document.getElementById('details-add-to-cart-btn');
-         const checkoutModal = document.getElementById('checkout-modal');
-         const closeModalBtn = document.getElementById('close-modal-btn');
-         const cartIconBtn = document.getElementById('cart-icon-btn');
-         const cartCount = document.getElementById('cart-count');
-         const cartModal = document.getElementById('cart-modal');
-         const closeCartBtn = document.getElementById('close-cart-btn');
-         const cartItemsContainer = document.getElementById('cart-items');
-         const cartTotalSpan = document.getElementById('cart-total');
-         const checkoutFromCartBtn = document.getElementById('checkout-from-cart-btn');
-         const messageBox = document.getElementById('message-box');
-         const checkoutTotalSpan = document.getElementById('checkout-total');
-         const pixQrCodeImg = document.getElementById('pix-qr-code');
-         const logoutBtn = document.getElementById('logout-btn');
-         const adminBtn = document.getElementById('admin-btn');
+        // Referências aos elementos do DOM
+        const bookGrid = document.getElementById('book-grid');
+        const detailsModal = document.getElementById('details-modal');
+        const closeDetailsBtn = document.getElementById('close-details-btn');
+        const detailsBookImage = document.getElementById('details-book-image');
+        const detailsBookTitle = document.getElementById('details-book-title');
+        const detailsBookDescription = document.getElementById('details-book-description');
+        const detailsAddBtn = document.getElementById('details-add-to-cart-btn');
+        const checkoutModal = document.getElementById('checkout-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const cartIconBtn = document.getElementById('cart-icon-btn');
+        const cartCount = document.getElementById('cart-count');
+        const cartModal = document.getElementById('cart-modal');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const checkoutFromCartBtn = document.getElementById('checkout-from-cart-btn');
+        const messageBox = document.getElementById('message-box');
+        const checkoutTotalSpan = document.getElementById('checkout-total');
+        const pixQrCodeImg = document.getElementById('pix-qr-code');
+        const logoutBtn = document.getElementById('logout-btn');
+        const adminBtn = document.getElementById('admin-btn');
 
-         // Referências do novo modal de autenticação
-         const authModal = document.getElementById('auth-modal');
-         const closeAuthBtn = document.getElementById('close-auth-btn');
-         const authTitle = document.getElementById('auth-title');
-         const authForm = document.getElementById('auth-form');
-         const authSwitchBtn = document.getElementById('auth-switch-btn');
-         const authSwitchText = document.getElementById('auth-switch-text');
-         const authSubmitBtn = document.getElementById('auth-submit-btn');
-         const emailInput = document.getElementById('email');
-         const passwordInput = document.getElementById('password');
-         const fullNameInput = document.getElementById('full-name');
-         const phoneNumberInput = document.getElementById('phone-number');
+        // Referências do novo modal de autenticação
+        const authModal = document.getElementById('auth-modal');
+        const closeAuthBtn = document.getElementById('close-auth-btn');
+        const authTitle = document.getElementById('auth-title');
+        const authForm = document.getElementById('auth-form');
+        const authSwitchBtn = document.getElementById('auth-switch-btn');
+        const authSwitchText = document.getElementById('auth-switch-text');
+        const authSubmitBtn = document.getElementById('auth-submit-btn');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const nameField = document.getElementById('name-field');
+        const phoneField = document.getElementById('phone-field');
+        const fullNameInput = document.getElementById('full-name');
+        const phoneNumberInput = document.getElementById('phone-number');
 
-         // Referências do modal de administração
-         const adminModal = document.getElementById('admin-modal');
-         const closeAdminBtn = document.getElementById('close-admin-btn');
-         const usersList = document.getElementById('users-list');
-         const ordersList = document.getElementById('orders-list');
-         
-         let isLoginMode = true;
+        // Referências do modal de administração
+        const adminModal = document.getElementById('admin-modal');
+        const closeAdminBtn = document.getElementById('close-admin-btn');
+        const usersList = document.getElementById('users-list');
+        const ordersList = document.getElementById('orders-list');
+        const genreButtonsContainer = document.getElementById('genre-buttons');
 
-         // Message Box function to avoid `alert()`
-         function showMessage(message, duration = 3000) {
-             messageBox.textContent = message;
-             messageBox.classList.remove('hidden');
-             messageBox.classList.add('opacity-100');
-             setTimeout(() => {
-                 messageBox.classList.remove('opacity-100');
-                 messageBox.classList.add('opacity-0');
-                 setTimeout(() => {
-                     messageBox.classList.add('hidden');
-                 }, 300);
-             }, duration);
-         }
+        let isLoginMode = true;
 
-         // --- FIREBASE INTEGRATION ---
+        // Message Box function to avoid `alert()`
+        function showMessage(message, duration = 3000) {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden');
+            messageBox.classList.add('opacity-100');
+            setTimeout(() => {
+                messageBox.classList.remove('opacity-100');
+                messageBox.classList.add('opacity-0');
+                setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                }, 300);
+            }, duration);
+        }
 
-         // Handle user authentication
-         onAuthStateChanged(auth, async (user) => {
-             if (user) {
-                 userId = user.uid;
-                 logoutBtn.classList.remove('hidden');
-                 console.log("User authenticated:", userId);
-                 // Pre-populate the public books collection if it's empty
-                 await seedBooks();
-                 // Start listening for book and cart data
-                 listenForBooks();
-                 listenForCart();
+        // --- FIREBASE INTEGRATION ---
 
-                 if (user.email === ADMIN_EMAIL) {
-                     adminBtn.classList.remove('hidden');
-                     console.log("Admin user logged in.");
-                 } else {
-                     adminBtn.classList.add('hidden');
-                 }
-             } else {
-                 userId = null;
-                 logoutBtn.classList.add('hidden');
-                 adminBtn.classList.add('hidden');
-                 if (initialAuthToken) {
-                     await signInWithCustomToken(auth, initialAuthToken);
-                 }
-             }
-         });
+        // Handle user authentication
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+                logoutBtn.classList.remove('hidden');
+                console.log("User authenticated:", userId);
+                // Pre-populate the public books collection if it's empty
+                await seedBooks();
+                // Start listening for book and cart data
+                listenForBooks();
+                listenForCart();
 
-         // Seed the public books collection
-         async function seedBooks() {
-             const booksCollectionRef = collection(db, "artifacts", appId, "public", "data", "books");
-             const snapshot = await getCountFromServer(booksCollectionRef);
-             if (snapshot.data().count === 0) {
-                 console.log("Seeding books collection...");
-                 for (const book of predefinedBooks) {
-                     await setDoc(doc(booksCollectionRef, String(book.id)), book);
-                 }
-             }
-         }
+                if (user.email === ADMIN_EMAIL) {
+                    adminBtn.classList.remove('hidden');
+                    console.log("Admin user logged in.");
+                    // Start listening for admin data (users and orders)
+                    listenForAdminData();
+                } else {
+                    adminBtn.classList.add('hidden');
+                }
+            } else {
+                userId = null;
+                logoutBtn.classList.add('hidden');
+                adminBtn.classList.add('hidden');
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                }
+            }
+        });
 
-         // Listen for real-time updates to the public books collection
-         function listenForBooks() {
-             const booksCollectionRef = collection(db, "artifacts", appId, "public", "data", "books");
-             onSnapshot(booksCollectionRef, (snapshot) => {
-                 books = snapshot.docs.map(doc => doc.data());
-                 console.log("Books updated:", books);
-                 renderBooks(books);
-                 renderGenreButtons();
-             }, (error) => {
-                 console.error("Error listening to books collection:", error);
-                 showMessage("Erro ao carregar os livros. Tente novamente.");
-             });
-         }
+        // Seed the public books collection
+        async function seedBooks() {
+            const booksCollectionRef = collection(db, "artifacts", appId, "public", "data", "books");
+            const snapshot = await getCountFromServer(booksCollectionRef);
+            if (snapshot.data().count === 0) {
+                console.log("Seeding books collection...");
+                for (const book of predefinedBooks) {
+                    await setDoc(doc(booksCollectionRef, String(book.id)), book);
+                }
+            }
+        }
 
-         // Listen for real-time updates to the user's cart
-         function listenForCart() {
-             if (!userId) {
-                 cartItems = [];
-                 updateCartDisplay();
-                 return;
-             }
-             const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
-             onSnapshot(cartRef, (docSnap) => {
-                 if (docSnap.exists()) {
-                     const cartData = docSnap.data();
-                     cartItems = JSON.parse(cartData.items);
-                     cartItemsContainer.innerHTML = '';
-                     if (cartItems.length > 0) {
-                         renderCartItems(cartItems);
-                         checkoutFromCartBtn.classList.remove('hidden');
-                     } else {
-                         cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
-                         cartTotalSpan.textContent = 'R$ 0,00';
-                         checkoutFromCartBtn.classList.add('hidden');
-                     }
-                 } else {
-                     // Cart does not exist, initialize it
-                     cartItems = [];
-                     cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
-                     cartTotalSpan.textContent = 'R$ 0,00';
-                     checkoutFromCartBtn.classList.add('hidden');
-                 }
-                 updateCartDisplay();
-             }, (error) => {
-                 console.error("Error listening to cart:", error);
-                 showMessage("Erro ao carregar o carrinho.");
-             });
-         }
+        // Listen for real-time updates to the public books collection
+        function listenForBooks() {
+            const booksCollectionRef = collection(db, "artifacts", appId, "public", "data", "books");
+            onSnapshot(booksCollectionRef, (snapshot) => {
+                books = snapshot.docs.map(doc => doc.data());
+                console.log("Books updated:", books);
+                renderBooks(books);
+                renderGenreButtons();
+            }, (error) => {
+                console.error("Error listening to books collection:", error);
+                showMessage("Erro ao carregar os livros. Tente novamente.");
+            });
+        }
 
-         // Add item to cart and save to Firestore
-         async function addToCart(book) {
-             if (!userId) {
-                 showMessage("Você precisa estar logado para adicionar itens ao carrinho.");
-                 return;
-             }
-             const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
-             try {
-                 const docSnap = await getDoc(cartRef);
-                 let currentCartItems = [];
-                 if (docSnap.exists()) {
-                     currentCartItems = JSON.parse(docSnap.data().items);
-                 }
+        // Listen for real-time updates to the user's cart
+        function listenForCart() {
+            if (!userId) {
+                cartItems = [];
+                updateCartDisplay();
+                return;
+            }
+            const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
+            onSnapshot(cartRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const cartData = docSnap.data();
+                    try {
+                        cartItems = JSON.parse(cartData.items);
+                    } catch (e) {
+                        console.error("Failed to parse cart data:", e);
+                        cartItems = [];
+                    }
+                } else {
+                    cartItems = [];
+                }
+                updateCartDisplay();
+            }, (error) => {
+                console.error("Error listening to cart:", error);
+                showMessage("Erro ao carregar o carrinho.");
+            });
+        }
 
-                 const existingItem = currentCartItems.find(item => item.id === book.id);
-                 if (existingItem) {
-                     existingItem.quantity++;
-                 } else {
-                     currentCartItems.push({ ...book, quantity: 1 });
-                 }
+        // Listen for real-time updates for admin data
+        function listenForAdminData() {
+            const usersRef = collection(db, "artifacts", appId, "public", "data", "users_public_data");
+            onSnapshot(usersRef, (snapshot) => {
+                const users = snapshot.docs.map(doc => doc.data());
+                renderUsers(users);
+            }, (error) => {
+                console.error("Error listening to users:", error);
+                showMessage("Erro ao carregar lista de usuários.");
+            });
+            const ordersRef = collection(db, "artifacts", appId, "public", "data", "orders");
+            onSnapshot(ordersRef, (snapshot) => {
+                const orders = snapshot.docs.map(doc => doc.data());
+                renderOrders(orders);
+            }, (error) => {
+                console.error("Error listening to orders:", error);
+                showMessage("Erro ao carregar histórico de pedidos.");
+            });
+        }
 
-                 await setDoc(cartRef, { items: JSON.stringify(currentCartItems) });
-                 showMessage(`${book.title} adicionado ao carrinho!`);
-             } catch (error) {
-                 console.error("Error adding to cart:", error);
-                 showMessage("Erro ao adicionar item ao carrinho.");
-             }
-         }
+        // Add item to cart and save to Firestore
+        async function addToCart(book) {
+            if (!userId) {
+                showMessage("Você precisa estar logado para adicionar itens ao carrinho.");
+                authModal.classList.remove('hidden');
+                return;
+            }
+            const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
+            try {
+                const docSnap = await getDoc(cartRef);
+                let currentCartItems = [];
+                if (docSnap.exists()) {
+                    currentCartItems = JSON.parse(docSnap.data().items);
+                }
 
-         // Remove item from cart and save to Firestore
-         async function removeFromCart(bookId) {
-             if (!userId) {
-                 showMessage("Você precisa estar logado para remover itens do carrinho.");
-                 return;
-             }
-             const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
-             try {
-                 const docSnap = await getDoc(cartRef);
-                 if (docSnap.exists()) {
-                     let currentCartItems = JSON.parse(docSnap.data().items);
-                     currentCartItems = currentCartItems.filter(item => item.id !== bookId);
-                     await setDoc(cartRef, { items: JSON.stringify(currentCartItems) });
-                     showMessage("Item removido do carrinho.");
-                 }
-             } catch (error) {
-                 console.error("Error removing from cart:", error);
-                 showMessage("Erro ao remover item do carrinho.");
-             }
-         }
+                const existingItem = currentCartItems.find(item => item.id === book.id);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    currentCartItems.push({ ...book, quantity: 1 });
+                }
 
-         // Update cart display (count on icon) from Firestore
-         async function updateCartDisplay() {
-             if (!userId) {
-                 cartCount.textContent = 0;
-                 return;
-             }
-             const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
-             const docSnap = await getDoc(cartRef);
-             let totalItems = 0;
-             if (docSnap.exists()) {
-                 const cartItems = JSON.parse(docSnap.data().items);
-                 totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-             }
-             cartCount.textContent = totalItems;
-         }
+                await setDoc(cartRef, { items: JSON.stringify(currentCartItems) });
+                showMessage(`${book.title} adicionado ao carrinho!`);
+            } catch (error) {
+                console.error("Error adding to cart:", error);
+                showMessage("Erro ao adicionar item ao carrinho.");
+            }
+        }
 
-         // Function to animate the book image to the cart
-         function flyToCart(startElement, imageUrl) {
-             const startRect = startElement.getBoundingClientRect();
-             const endRect = cartIconBtn.getBoundingClientRect();
-             
-             const animatedImage = document.createElement('img');
-             animatedImage.src = imageUrl;
-             animatedImage.className = 'absolute z-50 w-12 h-16 rounded-md object-cover transition-all duration-700 ease-in-out';
-             animatedImage.style.top = `${startRect.top}px`;
-             animatedImage.style.left = `${startRect.left}px`;
-             
-             document.body.appendChild(animatedImage);
+        // Remove item from cart and save to Firestore
+        async function removeFromCart(bookId) {
+            if (!userId) {
+                return;
+            }
+            const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
+            try {
+                const docSnap = await getDoc(cartRef);
+                if (docSnap.exists()) {
+                    let currentCartItems = JSON.parse(docSnap.data().items);
+                    currentCartItems = currentCartItems.filter(item => item.id !== bookId);
+                    await setDoc(cartRef, { items: JSON.stringify(currentCartItems) });
+                    showMessage("Item removido do carrinho.");
+                }
+            } catch (error) {
+                console.error("Error removing from cart:", error);
+                showMessage("Erro ao remover item do carrinho.");
+            }
+        }
 
-             setTimeout(() => {
-                 animatedImage.style.top = `${endRect.top}px`;
-                 animatedImage.style.left = `${endRect.left}px`;
-                 animatedImage.style.transform = 'scale(0.2)';
-                 animatedImage.style.opacity = '0';
-             }, 10);
+        // Update cart display (count on icon) from Firestore
+        function updateCartDisplay() {
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Render cart modal items and total
+            cartItemsContainer.innerHTML = '';
+            if (cartItems.length > 0) {
+                renderCartItems(cartItems);
+                checkoutFromCartBtn.classList.remove('hidden');
+            } else {
+                cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
+                cartTotalSpan.textContent = 'R$ 0,00';
+                checkoutFromCartBtn.classList.add('hidden');
+            }
+        }
 
-             animatedImage.addEventListener('transitionend', () => {
-                 animatedImage.remove();
-             });
-         }
+        // Function to animate the book image to the cart
+        function flyToCart(startElement, imageUrl) {
+            const startRect = startElement.getBoundingClientRect();
+            const endRect = cartIconBtn.getBoundingClientRect();
+            
+            const animatedImage = document.createElement('img');
+            animatedImage.src = imageUrl;
+            animatedImage.className = 'absolute z-50 w-12 h-16 rounded-md object-cover transition-all duration-700 ease-in-out';
+            animatedImage.style.top = `${startRect.top}px`;
+            animatedImage.style.left = `${startRect.left}px`;
+            
+            document.body.appendChild(animatedImage);
 
-         // Renderiza os livros na página a partir do array 'books' do Firestore
-         function renderBooks(booksToRender) {
-             bookGrid.innerHTML = '';
-             if (booksToRender.length === 0) {
-                 bookGrid.innerHTML = '<p class="text-center text-gray-800 col-span-full">Nenhum livro encontrado para este gênero.</p>';
-                 return;
-             }
-             booksToRender.forEach(book => {
-                 const bookCard = document.createElement('div');
-                 bookCard.className = "bg-white rounded-xl shadow-lg hover:shadow-xl flex flex-col transition-all duration-300 overflow-hidden cursor-pointer book-card";
-                 
-                 bookCard.innerHTML = `
-                     <div class="h-64 sm:h-80 w-full overflow-hidden book-image-container">
-                         <img src="${book.imageUrl}" alt="Capa do livro ${book.title}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110 book-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/E5E7EB/4B5563?text=Imagem+N%C3%A3o+Dispon%C3%ADvel';">
-                     </div>
-                     <div class="p-4 flex flex-col items-center text-center flex-grow">
-                         <h3 class="text-xl font-semibold text-gray-900 line-clamp-2">${book.title}</h3>
-                         <p class="text-gray-600 mt-1 mb-3 line-clamp-2">${book.description}</p>
-                         <div class="flex-grow"></div>
-                         <p class="text-2xl font-bold text-gray-800 mb-4">R$ ${book.price.toFixed(2)}</p>
-                         <button class="add-to-cart-btn w-full bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-emerald-700 transition-colors">
-                             Adicionar ao Carrinho
-                         </button>
-                     </div>
-                 `;
-                 
-                 bookCard.addEventListener('click', () => {
-                     openDetailsModal(book);
-                 });
-                 
-                 bookCard.querySelector('.add-to-cart-btn').addEventListener('click', (event) => {
-                     event.stopPropagation();
-                     const bookImage = bookCard.querySelector('.book-image');
-                     flyToCart(bookImage, book.imageUrl);
-                     addToCart(book);
-                 });
+            setTimeout(() => {
+                animatedImage.style.top = `${endRect.top}px`;
+                animatedImage.style.left = `${endRect.left}px`;
+                animatedImage.style.transform = 'scale(0.2)';
+                animatedImage.style.opacity = '0';
+            }, 10);
 
-                 bookGrid.appendChild(bookCard);
-             });
-         }
+            animatedImage.addEventListener('transitionend', () => {
+                animatedImage.remove();
+            });
+        }
 
-         // Cria e renderiza botões de gênero únicos
-         function renderGenreButtons() {
-             const genreButtonsContainer = document.getElementById('genre-buttons');
-             genreButtonsContainer.innerHTML = '';
-             const uniqueGenres = [...new Set(books.map(book => book.genre))];
-             
-             const allButton = createGenreButton('Todos', () => renderBooks(books));
-             genreButtonsContainer.appendChild(allButton);
+        // Renderiza os livros na página a partir do array 'books' do Firestore
+        function renderBooks(booksToRender) {
+            bookGrid.innerHTML = '';
+            if (booksToRender.length === 0) {
+                bookGrid.innerHTML = '<p class="text-center text-gray-800 col-span-full">Nenhum livro encontrado para este gênero.</p>';
+                return;
+            }
+            booksToRender.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = "bg-white rounded-xl shadow-lg hover:shadow-xl flex flex-col transition-all duration-300 overflow-hidden cursor-pointer book-card";
+                
+                bookCard.innerHTML = `
+                    <div class="h-64 sm:h-80 w-full overflow-hidden book-image-container">
+                        <img src="${book.imageUrl}" alt="Capa do livro ${book.title}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110 book-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/E5E7EB/4B5563?text=Imagem+N%C3%A3o+Dispon%C3%ADvel';">
+                    </div>
+                    <div class="p-4 flex flex-col items-center text-center flex-grow">
+                        <h3 class="text-xl font-semibold text-gray-900 line-clamp-2">${book.title}</h3>
+                        <p class="text-gray-600 mt-1 mb-3 line-clamp-2">${book.description}</p>
+                        <div class="flex-grow"></div>
+                        <p class="text-2xl font-bold text-gray-800 mb-4">R$ ${book.price.toFixed(2)}</p>
+                        <button class="add-to-cart-btn w-full bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-emerald-700 transition-colors">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                `;
+                
+                // Event listener para abrir o modal de detalhes
+                bookCard.querySelector('.book-image-container').addEventListener('click', () => {
+                    detailsBookImage.src = book.imageUrl;
+                    detailsBookTitle.textContent = book.title;
+                    detailsBookDescription.textContent = book.description;
+                    detailsBookPrice.textContent = `R$ ${book.price.toFixed(2)}`;
+                    detailsAddBtn.dataset.bookId = book.id;
+                    detailsModal.classList.remove('hidden');
+                });
 
-             uniqueGenres.forEach(genre => {
-                 const genreButton = createGenreButton(genre, () => {
-                     const filteredBooks = books.filter(book => book.genre === genre);
-                     renderBooks(filteredBooks);
-                 });
-                 genreButtonsContainer.appendChild(genreButton);
-             });
-         }
+                // Event listener para adicionar ao carrinho a partir do grid
+                bookCard.querySelector('.add-to-cart-btn').addEventListener('click', (e) => {
+                    e.stopPropagation(); // Previne que o clique no botão abra o modal de detalhes
+                    flyToCart(bookCard.querySelector('.book-image-container'), book.imageUrl);
+                    addToCart(book);
+                });
 
-         function createGenreButton(genre, onClick) {
-             const button = document.createElement('button');
-             button.textContent = genre;
-             button.className = "bg-gray-200 text-gray-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-gray-300 transition w-32 text-left";
-             button.onclick = onClick;
-             return button;
-         }
+                bookGrid.appendChild(bookCard);
+            });
+        }
 
-         // Renderiza os itens do carrinho no modal
-         function renderCartItems(items) {
-             cartItemsContainer.innerHTML = '';
-             let total = 0;
-             if (items.length === 0) {
-                 cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Seu carrinho está vazio.</p>';
-                 checkoutFromCartBtn.classList.add('hidden');
-                 cartTotalSpan.textContent = 'R$ 0,00';
-                 return;
-             }
-             items.forEach(item => {
-                 total += item.price * item.quantity;
-                 const itemElement = document.createElement('div');
-                 itemElement.className = "flex items-center space-x-4 p-4 bg-gray-100 rounded-lg shadow-sm";
-                 itemElement.innerHTML = `
-                     <img src="${item.imageUrl}" alt="${item.title}" class="w-16 h-20 object-cover rounded-md">
-                     <div class="flex-grow">
-                         <h4 class="text-lg font-bold text-gray-800">${item.title}</h4>
-                         <p class="text-sm text-gray-600">Preço: R$ ${item.price.toFixed(2)}</p>
-                         <p class="text-sm text-gray-600">Quantidade: ${item.quantity}</p>
-                     </div>
-                     <button class="remove-from-cart-btn text-red-500 hover:text-red-700 transition" data-id="${item.id}">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                         </svg>
-                     </button>
-                 `;
-                 cartItemsContainer.appendChild(itemElement);
-             });
-             cartTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
-             
-             // Adiciona listeners para remover itens
-             document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
-                 button.addEventListener('click', () => {
-                     const bookId = parseInt(button.dataset.id);
-                     removeFromCart(bookId);
-                 });
-             });
-         }
+        // Renderiza os botões de gênero
+        function renderGenreButtons() {
+            const genres = [...new Set(books.map(book => book.genre))];
+            genreButtonsContainer.innerHTML = '';
+            
+            // Botão "Todos"
+            const allBtn = document.createElement('button');
+            allBtn.textContent = 'Todos';
+            allBtn.className = 'text-white bg-emerald-600 hover:bg-emerald-700 transition font-bold px-4 py-2 rounded-full shadow-lg text-sm';
+            allBtn.addEventListener('click', () => renderBooks(books));
+            genreButtonsContainer.appendChild(allBtn);
 
-         // Abre e fecha modais
-         function openDetailsModal(book) {
-             detailsBookImage.src = book.imageUrl;
-             detailsBookTitle.textContent = book.title;
-             detailsBookDescription.textContent = book.description;
-             detailsBookPrice.textContent = `R$ ${book.price.toFixed(2)}`;
-             detailsAddBtn.onclick = () => {
-                 const bookImage = document.querySelector('.book-image');
-                 flyToCart(bookImage, book.imageUrl);
-                 addToCart(book);
-                 detailsModal.classList.add('hidden');
-             };
-             detailsModal.classList.remove('hidden');
-         }
+            genres.forEach(genre => {
+                const genreBtn = document.createElement('button');
+                genreBtn.textContent = genre;
+                genreBtn.className = 'text-white bg-emerald-600 hover:bg-emerald-700 transition font-bold px-4 py-2 rounded-full shadow-lg text-sm';
+                genreBtn.addEventListener('click', () => {
+                    const filteredBooks = books.filter(book => book.genre === genre);
+                    renderBooks(filteredBooks);
+                });
+                genreButtonsContainer.appendChild(genreBtn);
+            });
+        }
 
-         function openCartModal() {
-             cartModal.classList.remove('hidden');
-         }
+        // Renderiza os itens do carrinho no modal
+        function renderCartItems(items) {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            items.forEach(item => {
+                total += item.price * item.quantity;
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.className = "flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm";
+                cartItemDiv.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <img src="${item.imageUrl}" alt="${item.title}" class="w-12 h-16 object-cover rounded-md">
+                        <div>
+                            <p class="font-semibold text-sm">${item.title}</p>
+                            <p class="text-xs text-gray-500">Quantidade: ${item.quantity}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm font-bold">R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                        <button class="remove-from-cart-btn text-red-500 hover:text-red-700 transition" data-book-id="${item.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItemDiv);
+            });
+            cartTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
+            checkoutTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
+            document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const bookId = parseInt(e.currentTarget.dataset.bookId);
+                    removeFromCart(bookId);
+                });
+            });
+        }
 
-         function openCheckoutModal() {
-             const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-             checkoutTotalSpan.textContent = `R$ ${total.toFixed(2)}`;
-             // A imagem do QR Code agora é fixa
-             // pixQrCodeImg.src = "URL_DO_QR_CODE_GERADO";
-             checkoutModal.classList.remove('hidden');
-         }
+        // Renderiza a lista de usuários para o admin
+        function renderUsers(users) {
+            usersList.innerHTML = '';
+            if (users.length === 0) {
+                usersList.innerHTML = '<p class="text-center text-gray-500">Nenhum usuário encontrado.</p>';
+            } else {
+                users.forEach(user => {
+                    const userDiv = document.createElement('div');
+                    userDiv.className = "bg-gray-50 p-4 rounded-lg shadow-sm";
+                    userDiv.innerHTML = `
+                        <p class="font-semibold">${user.name}</p>
+                        <p class="text-sm text-gray-600">Email: ${user.email}</p>
+                        <p class="text-xs text-gray-500">ID: ${user.id}</p>
+                    `;
+                    usersList.appendChild(userDiv);
+                });
+            }
+        }
 
-         function openAuthModal() {
-             authModal.classList.remove('hidden');
-         }
+        // Renderiza o histórico de pedidos para o admin
+        function renderOrders(orders) {
+            ordersList.innerHTML = '';
+            if (orders.length === 0) {
+                ordersList.innerHTML = '<p class="text-center text-gray-500">Nenhum pedido encontrado.</p>';
+            } else {
+                orders.forEach(order => {
+                    const orderDiv = document.createElement('div');
+                    orderDiv.className = "bg-gray-50 p-4 rounded-lg shadow-sm";
+                    const formattedDate = new Date(order.timestamp).toLocaleString();
+                    const itemsHtml = order.items.map(item => `
+                        <p class="text-sm ml-4">- ${item.title} (${item.quantity}x)</p>
+                    `).join('');
+                    orderDiv.innerHTML = `
+                        <p class="font-semibold">Pedido de ${order.userName} - Total: R$ ${order.total.toFixed(2)}</p>
+                        <p class="text-xs text-gray-500">Data: ${formattedDate}</p>
+                        <div class="mt-2">Itens:</div>
+                        ${itemsHtml}
+                    `;
+                    ordersList.appendChild(orderDiv);
+                });
+            }
+        }
 
-         function openAdminModal() {
-             if (auth.currentUser && auth.currentUser.email === ADMIN_EMAIL) {
-                 loadAdminData();
-                 adminModal.classList.remove('hidden');
-             } else {
-                 showMessage("Acesso não autorizado.");
-             }
-         }
+        // Handle Checkout
+        async function handleCheckout() {
+            if (!userId || cartItems.length === 0) {
+                showMessage("Seu carrinho está vazio.");
+                return;
+            }
 
-         // Manipula a troca entre login e cadastro
-         function switchAuthMode() {
-             isLoginMode = !isLoginMode;
-             if (isLoginMode) {
-                 authTitle.textContent = "Acesse sua Conta";
-                 authSubmitBtn.textContent = "Acessar";
-                 authSwitchText.textContent = "Não tem uma conta?";
-                 authSwitchBtn.textContent = "Cadastre-se";
-                 document.getElementById('name-field').classList.add('hidden');
-                 document.getElementById('phone-field').classList.add('hidden');
-             } else {
-                 authTitle.textContent = "Crie sua Conta";
-                 authSubmitBtn.textContent = "Cadastrar";
-                 authSwitchText.textContent = "Já tem uma conta?";
-                 authSwitchBtn.textContent = "Acesse";
-                 document.getElementById('name-field').classList.remove('hidden');
-                 document.getElementById('phone-field').classList.remove('hidden');
-             }
-         }
+            try {
+                const ordersCollectionRef = collection(db, "artifacts", appId, "public", "data", "orders");
+                const userDoc = await getDoc(doc(db, "artifacts", appId, "public", "data", "users_public_data", userId));
+                const userName = userDoc.exists() ? userDoc.data().name : 'Usuário Anônimo';
+                const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-         // Lida com o envio do formulário de autenticação
-         authForm.addEventListener('submit', async (e) => {
-             e.preventDefault();
-             const email = emailInput.value;
-             const password = passwordInput.value;
-             const fullName = fullNameInput.value;
-             const phoneNumber = phoneNumberInput.value;
+                await addDoc(ordersCollectionRef, {
+                    userId: userId,
+                    userName: userName,
+                    items: cartItems,
+                    total: total,
+                    timestamp: new Date().toISOString()
+                });
 
-             try {
-                 if (isLoginMode) {
-                     await signInWithEmailAndPassword(auth, email, password);
-                     showMessage("Login realizado com sucesso!");
-                     authModal.classList.add('hidden');
-                 } else {
-                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                     await updateProfile(userCredential.user, { displayName: fullName });
-                     
-                     // Salva dados adicionais do usuário em um documento separado
-                     const userDocRef = doc(db, "artifacts", appId, "users", userCredential.user.uid, "profile", "data");
-                     await setDoc(userDocRef, {
-                         name: fullName,
-                         email: email,
-                         phone: phoneNumber,
-                         createdAt: new Date()
-                     });
+                // Clear cart after checkout
+                const cartRef = doc(db, "artifacts", appId, "users", userId, "cart", "userCart");
+                await setDoc(cartRef, { items: JSON.stringify([]) });
 
-                     showMessage("Cadastro realizado com sucesso! Você está logado.");
-                     authModal.classList.add('hidden');
-                 }
-             } catch (error) {
-                 console.error("Authentication error:", error);
-                 let errorMessage = "Ocorreu um erro. Tente novamente.";
-                 if (error.code === 'auth/email-already-in-use') {
-                     errorMessage = "E-mail já está em uso.";
-                 } else if (error.code === 'auth/invalid-email') {
-                     errorMessage = "E-mail inválido.";
-                 } else if (error.code === 'auth/weak-password') {
-                     errorMessage = "A senha deve ter no mínimo 6 caracteres.";
-                 } else if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-                     errorMessage = "E-mail ou senha inválidos.";
-                 }
-                 showMessage(errorMessage);
-             }
-         });
+                showMessage("Pedido finalizado com sucesso! Agradecemos a sua compra.");
+                cartModal.classList.add('hidden');
+            } catch (error) {
+                console.error("Error finalizing checkout:", error);
+                showMessage("Erro ao finalizar a compra. Tente novamente.");
+            }
+        }
 
-         // Carrega dados para o painel de administração
-         async function loadAdminData() {
-             // Carregar usuários
-             try {
-                 usersList.innerHTML = '<p class="text-center text-gray-500">Carregando dados dos usuários...</p>';
-                 const usersCollectionRef = collection(db, "artifacts", appId, "users");
-                 const usersSnapshot = await getDocs(usersCollectionRef);
-                 usersList.innerHTML = '';
-                 usersSnapshot.forEach(userDoc => {
-                     const userProfileRef = doc(db, "artifacts", appId, "users", userDoc.id, "profile", "data");
-                     getDoc(userProfileRef).then(profileSnap => {
-                         if (profileSnap.exists()) {
-                             const profile = profileSnap.data();
-                             const userElement = document.createElement('div');
-                             userElement.className = 'p-4 bg-gray-100 rounded-lg shadow-sm';
-                             userElement.innerHTML = `
-                                 <h4 class="font-bold">${profile.name} (${profile.email})</h4>
-                                 <p class="text-sm text-gray-600">Telefone: ${profile.phone || 'N/A'}</p>
-                                 <p class="text-sm text-gray-600">ID: ${userDoc.id}</p>
-                             `;
-                             usersList.appendChild(userElement);
-                         }
-                     });
-                 });
-             } catch (error) {
-                 console.error("Error loading admin data:", error);
-                 usersList.innerHTML = '<p class="text-center text-red-500">Erro ao carregar dados dos usuários.</p>';
-             }
-             
-             // Carregar pedidos (não há dados de pedidos no momento, então a mensagem de carregamento permanecerá)
-             ordersList.innerHTML = '<p class="text-center text-gray-500">Funcionalidade de histórico de pedidos a ser implementada.</p>';
-         }
+        // --- EVENT LISTENERS ---
 
+        // Open/Close Modals
+        cartIconBtn.addEventListener('click', () => {
+            if (!userId) {
+                showMessage("Você precisa estar logado para ver o carrinho.");
+                authModal.classList.remove('hidden');
+                return;
+            }
+            cartModal.classList.remove('hidden');
+        });
+        closeDetailsBtn.addEventListener('click', () => detailsModal.classList.add('hidden'));
+        closeCartBtn.addEventListener('click', () => cartModal.classList.add('hidden'));
+        closeModalBtn.addEventListener('click', () => checkoutModal.classList.add('hidden'));
+        closeAuthBtn.addEventListener('click', () => authModal.classList.add('hidden'));
+        closeAdminBtn.addEventListener('click', () => adminModal.classList.add('hidden'));
 
-         // Event Listeners para modais
-         closeDetailsBtn.addEventListener('click', () => detailsModal.classList.add('hidden'));
-         cartIconBtn.addEventListener('click', openCartModal);
-         closeCartBtn.addEventListener('click', () => cartModal.classList.add('hidden'));
-         checkoutFromCartBtn.addEventListener('click', () => {
-             cartModal.classList.add('hidden');
-             openCheckoutModal();
-         });
-         closeModalBtn.addEventListener('click', () => checkoutModal.classList.add('hidden'));
-         logoutBtn.addEventListener('click', async () => {
-             await signOut(auth);
-             showMessage("Você foi desconectado.");
-         });
-         authSwitchBtn.addEventListener('click', switchAuthMode);
-         adminBtn.addEventListener('click', openAdminModal);
-         closeAdminBtn.addEventListener('click', () => adminModal.classList.add('hidden'));
+        // Add to Cart from details modal
+        detailsAddBtn.addEventListener('click', () => {
+            const bookId = parseInt(detailsAddBtn.dataset.bookId);
+            const book = books.find(b => b.id === bookId);
+            if (book) {
+                addToCart(book);
+            }
+            detailsModal.classList.add('hidden');
+        });
 
-         // Adiciona o listener para o clique no backdrop para fechar os modais
-         [detailsModal, cartModal, checkoutModal, authModal, adminModal].forEach(modal => {
-             modal.addEventListener('click', (event) => {
-                 if (event.target === modal) {
-                     modal.classList.add('hidden');
-                 }
-             });
-         });
+        // Toggle Auth Modal (Login/Signup)
+        authSwitchBtn.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            if (isLoginMode) {
+                authTitle.textContent = "Acesse sua Conta";
+                authSubmitBtn.textContent = "Acessar";
+                authSwitchText.textContent = "Não tem uma conta?";
+                authSwitchBtn.textContent = "Cadastre-se";
+                nameField.classList.add('hidden');
+                phoneField.classList.add('hidden');
+            } else {
+                authTitle.textContent = "Crie sua Conta";
+                authSubmitBtn.textContent = "Cadastrar";
+                authSwitchText.textContent = "Já tem uma conta?";
+                authSwitchBtn.textContent = "Acesse";
+                nameField.classList.remove('hidden');
+                phoneField.classList.remove('hidden');
+            }
+        });
 
-         // Inicia a aplicação
-         // A autenticação é observada via onAuthStateChanged, que iniciará o carregamento dos dados.
-         // Se nenhum usuário estiver logado, o token de custom auth será usado para login anônimo.
-         // Se já houver um usuário logado, o onAuthStateChanged irá detectá-lo e o processo de carregamento de dados será iniciado.
-     </script>
+        // Handle Auth Form Submission
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            try {
+                if (isLoginMode) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    showMessage("Login realizado com sucesso!");
+                } else {
+                    const fullName = fullNameInput.value;
+                    const phoneNumber = phoneNumberInput.value;
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    await updateProfile(userCredential.user, { displayName: fullName });
+                    
+                    // Save user data to a public collection for admin to view
+                    const usersPublicRef = doc(db, "artifacts", appId, "public", "data", "users_public_data", userCredential.user.uid);
+                    await setDoc(usersPublicRef, {
+                        id: userCredential.user.uid,
+                        name: fullName,
+                        email: email,
+                        phoneNumber: phoneNumber,
+                        joinedAt: new Date().toISOString()
+                    });
+                    
+                    showMessage("Cadastro realizado com sucesso!");
+                }
+                authModal.classList.add('hidden');
+            } catch (error) {
+                console.error("Auth Error:", error);
+                if (error.code === 'auth/email-already-in-use') {
+                    showMessage("Este e-mail já está em uso.");
+                } else if (error.code === 'auth/invalid-email' || error.code === 'auth/weak-password') {
+                    showMessage("E-mail ou senha inválidos.");
+                } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    showMessage("E-mail ou senha incorretos.");
+                } else {
+                    showMessage("Erro de autenticação. Tente novamente.");
+                }
+            }
+        });
 
- </body>
- </html>
+        // Admin and Logout buttons
+        adminBtn.addEventListener('click', () => {
+            adminModal.classList.remove('hidden');
+        });
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                showMessage("Você saiu da sua conta.");
+            } catch (error) {
+                console.error("Logout Error:", error);
+                showMessage("Erro ao sair.");
+            }
+        });
+
+        // Checkout from Cart
+        checkoutFromCartBtn.addEventListener('click', () => {
+            cartModal.classList.add('hidden');
+            checkoutModal.classList.remove('hidden');
+        });
+
+        // Checkout confirmation (on the checkout modal)
+        checkoutModal.querySelector('img').addEventListener('click', () => {
+            handleCheckout();
+        });
+    </script>
+</body>
+</html>
