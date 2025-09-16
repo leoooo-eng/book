@@ -22,23 +22,43 @@
 <body class="min-h-screen flex flex-col items-center p-4 transition-all duration-500">
 
     <!-- Header -->
-    <header class="w-full max-w-5xl text-center py-8 relative">
-        <div class="absolute top-1/2 left-4 sm:left-8 transform -translate-y-1/2 flex flex-col items-start space-y-2 sm:space-y-4" id="genre-buttons">
-            <!-- Botões de gêneros serão injetados aqui via JavaScript -->
-        </div>
-        <img src="https://i.imgur.com/nTXYYLi.png" alt="Logo AchadoTeca" class="mx-auto w-64 sm:w-80 mb-2">
-        <div class="absolute top-4 right-4 sm:right-8 flex items-center space-x-2">
-            <button id="login-btn" class="bg-emerald-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-emerald-700 transition">Login</button>
-            <button id="logout-btn" class="bg-gray-200 text-gray-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-gray-300 transition hidden">Sair</button>
-        </div>
-        <div class="absolute top-1/2 right-4 sm:right-8 transform -translate-y-1/2 flex items-center space-x-2">
-            <button id="cart-icon-btn" class="bg-emerald-600 text-white p-3 rounded-full shadow-lg hover:bg-emerald-700 transition">
+    <header class="w-full max-w-5xl py-8 flex flex-col items-center relative">
+        <!-- Botões de Ação no canto superior direito (Login/Cart) -->
+        <div class="absolute top-4 right-4 flex items-center space-x-2">
+            <button id="login-btn" class="bg-indigo-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-indigo-700 transition">Login</button>
+            <button id="logout-btn" class="bg-indigo-200 text-indigo-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-indigo-300 transition hidden">Sair</button>
+            <button id="cart-icon-btn" class="bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition relative">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-1.5 9H6M6 15h12m-3-6H9m-3 6l2.25-4.5H18M12 18a2 2 0 100 4 2 2 0 000-4z" />
                 </svg>
                 <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full -translate-x-1/2 -translate-y-1/2">0</span>
             </button>
         </div>
+
+        <!-- Título centralizado -->
+        <div class="w-full text-center mb-4">
+            <h1 class="text-5xl sm:text-6xl font-extrabold text-indigo-600">AchadoTeca</h1>
+        </div>
+
+        <!-- Botão de Gêneros e Barra de Busca lado a lado (layout corrigido) -->
+        <div class="w-full flex items-center space-x-4">
+            <div class="relative">
+                <button id="genre-dropdown-btn" class="bg-indigo-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-lg border-2 border-indigo-600 hover:bg-indigo-700 transition">
+                    Gêneros
+                </button>
+                <div id="genre-dropdown" class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-10">
+                    <!-- Opções de gênero serão injetadas aqui -->
+                </div>
+            </div>
+            
+            <!-- A barra de pesquisa preenche o restante do espaço -->
+            <div class="flex-grow">
+                <input type="text" id="search-bar" placeholder="Buscar por título ou descrição..." class="w-full px-4 py-2 rounded-full shadow-lg border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 transition">
+            </div>
+        </div>
+
+        <!-- Linha horizontal adicionada para separar o cabeçalho do conteúdo -->
+        <div class="w-full mt-8 h-px bg-gray-300"></div>
     </header>
 
     <!-- Main Content - Book Grid -->
@@ -64,8 +84,8 @@
                 <div class="text-center sm:text-left">
                     <h3 id="details-book-title" class="text-xl sm:text-2xl font-bold text-gray-900 mb-2"></h3>
                     <p id="details-book-description" class="text-gray-700 mb-4"></p>
-                    <p id="details-book-price" class="text-3xl font-bold text-emerald-600 mb-4"></p>
-                    <button id="details-add-to-cart-btn" class="w-full sm:w-auto bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition">
+                    <p id="details-book-price" class="text-3xl font-bold text-indigo-600 mb-4"></p>
+                    <button id="details-add-to-cart-btn" class="w-full sm:w-auto bg-indigo-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-indigo-700 transition">
                         Adicionar ao Carrinho
                     </button>
                 </div>
@@ -89,10 +109,10 @@
             </div>
             <div class="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center">
                 <span class="text-xl font-bold text-gray-800">Total:</span>
-                <span id="cart-total" class="text-3xl font-bold text-emerald-600">R$ 0,00</span>
+                <span id="cart-total" class="text-3xl font-bold text-gray-900">R$ 0,00</span>
             </div>
             <!-- Botão de checkout só aparece se o carrinho não estiver vazio -->
-            <button id="checkout-from-cart-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105 mt-6">
+            <button id="checkout-from-cart-btn" class="w-full bg-indigo-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-indigo-700 transition transform hover:scale-105 mt-6">
                 Finalizar Compra
             </button>
         </div>
@@ -102,23 +122,17 @@
     <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md transform transition-all scale-95 duration-300">
             <div class="flex justify-between items-center mb-6">
-                <!-- Título do modal de pagamento alterado para "Pague Aqui" -->
-                <h2 class="text-2xl font-bold text-gray-800">Pague Aqui</h2>
+                <h2 class="text-2xl font-bold text-gray-800">Entre em Contato</h2>
                 <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
-            <!-- Conteúdo de pagamento e retirada atualizado -->
             <div class="flex flex-col items-center">
-                <p class="text-lg font-semibold text-black mb-3">Use a câmera do seu celular para digitalizar o código abaixo.</p>
-                <p class="text-2xl font-bold text-emerald-600 mb-4">Total: <span id="checkout-total">R$ 0,00</span></p>
-                <!-- O link da imagem do QR code foi atualizado -->
-                <img id="pix-qr-code" src="https://i.imgur.com/l8tGeCV.jpeg" alt="QR Code Pix" class="w-48 h-48 rounded-lg mt-4 shadow-md">
-                <!-- Texto "Ou" adicionado antes do número de telefone -->
-                <p class="mt-4 text-center text-lg text-gray-700">Ou (11) 94060-0244</p>
-                <!-- A seção de retirada no local foi atualizada com o link para o mapa -->
+                <p class="text-2xl font-bold text-gray-900 mb-4">Total: <span id="checkout-total">R$ 0,00</span></p>
+                <!-- Apenas o número, sem texto descritivo -->
+                <p class="text-2xl font-bold text-indigo-600 mt-2 mb-4">(11) 98765-4321</p>
                 <div class="mt-8 pt-4 border-t border-gray-200 w-full text-center">
                     <h3 class="text-xl font-bold text-gray-800 mb-2">RETIRADA NO LOCAL</h3>
                     <a href="https://maps.app.goo.gl/JWMKfBrjTL3r3aEH8" class="text-gray-700 text-center underline font-semibold hover:text-gray-900 transition-colors" target="_blank">
@@ -143,34 +157,34 @@
             <form id="auth-form" class="space-y-4">
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
-                    <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
+                    <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" required>
                 </div>
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
-                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2" required>
+                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" required>
                 </div>
                 <!-- Novo campo para confirmar senha, inicialmente oculto -->
                 <div id="confirm-password-field" class="hidden">
                     <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
-                    <input type="password" id="confirm-password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2">
+                    <input type="password" id="confirm-password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
                 </div>
                 <!-- Área para mensagens de erro -->
                 <p id="auth-error-message" class="text-red-600 text-sm hidden"></p>
-                <button type="submit" id="auth-submit-btn" class="w-full bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition transform hover:scale-105">
+                <button type="submit" id="auth-submit-btn" class="w-full bg-indigo-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-indigo-700 transition transform hover:scale-105">
                     Acessar
                 </button>
                 <!-- Botão para alternar entre login e registro -->
                 <div class="text-center mt-4">
-                    <a href="#" id="toggle-auth-link" class="text-sm text-emerald-600 hover:underline">
+                    <a href="#" id="toggle-auth-link" class="text-sm text-indigo-600 hover:underline">
                         Não tem uma conta? Crie uma aqui.
                     </a>
                 </div>
             </form>
         </div>
     </div>
-
+    
     <!-- Message Box -->
-    <div id="message-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-800 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 z-50"></div>
+    <div id="message-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-indigo-900 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 z-50"></div>
 
     <script>
         // Dados de livros predefinidos (agora como a fonte principal de dados)
@@ -203,7 +217,8 @@
         const checkoutFromCartBtn = document.getElementById('checkout-from-cart-btn');
         const messageBox = document.getElementById('message-box');
         const checkoutTotalSpan = document.getElementById('checkout-total');
-        const genreButtonsContainer = document.getElementById('genre-buttons');
+        const genreDropdownBtn = document.getElementById('genre-dropdown-btn');
+        const genreDropdown = document.getElementById('genre-dropdown');
         const loginBtn = document.getElementById('login-btn');
         const logoutBtn = document.getElementById('logout-btn');
         const authModal = document.getElementById('auth-modal');
@@ -216,6 +231,7 @@
         const authSubmitBtn = document.getElementById('auth-submit-btn');
         const toggleAuthLink = document.getElementById('toggle-auth-link');
         const authErrorMessage = document.getElementById('auth-error-message');
+        const searchBar = document.getElementById('search-bar'); // Referência à nova barra de pesquisa
 
         // Credenciais de login estáticas e contas salvas no localStorage
         const ADMIN_EMAIL = "admin@livraria.com";
@@ -357,7 +373,7 @@
                         <p class="text-gray-600 mt-1 mb-3 line-clamp-2">${book.description}</p>
                         <div class="flex-grow"></div>
                         <p class="text-2xl font-bold text-gray-800 mb-4">R$ ${book.price.toFixed(2)}</p>
-                        <button class="add-to-cart-btn w-full bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-emerald-700 transition-colors">
+                        <button class="add-to-cart-btn w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-xl hover:bg-indigo-700 transition-colors">
                             Adicionar ao Carrinho
                         </button>
                     </div>
@@ -384,27 +400,35 @@
             });
         }
 
-        // Renderiza os botões de gênero
-        function renderGenreButtons() {
+        // Renderiza as opções do dropdown de gênero
+        function renderGenreDropdown() {
             const genres = [...new Set(predefinedBooks.map(book => book.genre))];
-            genreButtonsContainer.innerHTML = '';
+            genreDropdown.innerHTML = '';
             
-            // Botão "Todos"
-            const allBtn = document.createElement('button');
-            allBtn.textContent = 'Todos';
-            allBtn.className = 'text-white bg-emerald-600 hover:bg-emerald-700 transition font-bold px-4 py-2 rounded-full shadow-lg text-sm';
-            allBtn.addEventListener('click', () => renderBooks(predefinedBooks));
-            genreButtonsContainer.appendChild(allBtn);
+            // Opção "Todos"
+            const allOption = document.createElement('a');
+            allOption.textContent = 'Todos';
+            allOption.href = '#';
+            allOption.className = 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900';
+            allOption.addEventListener('click', (e) => {
+                e.preventDefault();
+                renderBooks(predefinedBooks);
+                genreDropdown.classList.add('hidden');
+            });
+            genreDropdown.appendChild(allOption);
 
             genres.forEach(genre => {
-                const genreBtn = document.createElement('button');
-                genreBtn.textContent = genre;
-                genreBtn.className = 'text-white bg-emerald-600 hover:bg-emerald-700 transition font-bold px-4 py-2 rounded-full shadow-lg text-sm';
-                genreBtn.addEventListener('click', () => {
+                const genreOption = document.createElement('a');
+                genreOption.textContent = genre;
+                genreOption.href = '#';
+                genreOption.className = 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900';
+                genreOption.addEventListener('click', (e) => {
+                    e.preventDefault();
                     const filteredBooks = predefinedBooks.filter(book => book.genre === genre);
                     renderBooks(filteredBooks);
+                    genreDropdown.classList.add('hidden');
                 });
-                genreButtonsContainer.appendChild(genreBtn);
+                genreDropdown.appendChild(genreOption);
             });
         }
 
@@ -469,13 +493,13 @@
                 logoutBtn.classList.add('hidden');
             }
         }
-
+        
         // --- EVENT LISTENERS ---
 
         // Inicia a aplicação carregando os livros e o carrinho
         window.addEventListener('load', () => {
             renderBooks(predefinedBooks);
-            renderGenreButtons();
+            renderGenreDropdown();
             loadCartFromLocalStorage();
             updateLoginUI();
         });
@@ -497,6 +521,11 @@
             updateLoginUI();
             showMessage("Você saiu da sua conta.");
         });
+
+        // Toggle genre dropdown
+        genreDropdownBtn.addEventListener('click', () => {
+            genreDropdown.classList.toggle('hidden');
+        });
         
         // Add to Cart from details modal
         detailsAddBtn.addEventListener('click', () => {
@@ -514,59 +543,62 @@
             checkoutModal.classList.remove('hidden');
         });
 
-        // Checkout confirmation (on the checkout modal)
-        checkoutModal.querySelector('img').addEventListener('click', () => {
-            handleCheckout();
-        });
-        
-        // Link para alternar entre login e registro
-        toggleAuthLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            toggleAuthMode();
-        });
-
-        // Handle login/register form submission
+        // Autenticação (Login e Registro)
         authForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
-            const users = JSON.parse(localStorage.getItem('users')) || {
-                "admin@livraria.com": "senha123" // Usuário padrão
-            };
+
             authErrorMessage.classList.add('hidden');
 
             if (isLoginMode) {
-                // Lógica de LOGIN
-                if (users[email] && users[email] === password) {
+                // Modo de Login
+                if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
                     localStorage.setItem('isLoggedIn', 'true');
-                    updateLoginUI();
+                    showMessage("Login bem-sucedido! Bem-vindo(a) de volta.");
                     authModal.classList.add('hidden');
-                    showMessage("Login realizado com sucesso!");
+                    updateLoginUI();
                 } else {
                     authErrorMessage.textContent = "E-mail ou senha incorretos.";
                     authErrorMessage.classList.remove('hidden');
                 }
             } else {
-                // Lógica de REGISTRO
+                // Modo de Registro
                 if (password !== confirmPassword) {
                     authErrorMessage.textContent = "As senhas não coincidem.";
                     authErrorMessage.classList.remove('hidden');
                     return;
                 }
-                if (users[email]) {
-                    authErrorMessage.textContent = "Este e-mail já está em uso.";
+                if (password.length < 6) {
+                    authErrorMessage.textContent = "A senha deve ter pelo menos 6 caracteres.";
                     authErrorMessage.classList.remove('hidden');
                     return;
                 }
                 
-                // Simula o registro salvando no localStorage
-                users[email] = password;
-                localStorage.setItem('users', JSON.stringify(users));
-                showMessage("Conta criada com sucesso! Você já pode fazer login.");
+                // Simulação de registro bem-sucedido
+                // Em um cenário real, você usaria um banco de dados
+                showMessage("Conta criada com sucesso! Faça o login para continuar.");
                 toggleAuthMode();
             }
         });
+
+        // Evento para alternar entre login e registro
+        toggleAuthLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleAuthMode();
+        });
+
+        // --- Nova lógica para a barra de pesquisa ---
+        searchBar.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredBooks = predefinedBooks.filter(book =>
+                book.title.toLowerCase().includes(searchTerm) ||
+                book.description.toLowerCase().includes(searchTerm)
+            );
+            renderBooks(filteredBooks);
+        });
+
     </script>
 </body>
 </html>
