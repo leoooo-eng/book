@@ -132,7 +132,10 @@
             <div class="flex flex-col items-center">
                 <p class="text-2xl font-bold text-gray-900 mb-4">Total: <span id="checkout-total">R$ 0,00</span></p>
                 <!-- Apenas o número, sem texto descritivo -->
-                <p class="text-2xl font-bold text-indigo-600 mt-2 mb-4">(11) 98765-4321</p>
+                <p class="text-2xl font-bold text-indigo-600 mt-2 mb-4">
+                    <span class="text-gray-700 text-base block font-normal">Número PIX / WhatsApp:</span>
+                    (11) 94060-0244
+                </p>
                 <div class="mt-8 pt-4 border-t border-gray-200 w-full text-center">
                     <h3 class="text-xl font-bold text-gray-800 mb-2">RETIRADA NO LOCAL</h3>
                     <a href="https://maps.app.goo.gl/JWMKfBrjTL3r3aEH8" class="text-gray-700 text-center underline font-semibold hover:text-gray-900 transition-colors" target="_blank">
@@ -186,7 +189,17 @@
     <!-- Message Box -->
     <div id="message-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-indigo-900 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 z-50"></div>
 
-    <script>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables for Firestore (MUST BE USED)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
         // Dados de livros predefinidos (agora como a fonte principal de dados)
         const predefinedBooks = [
             { id: 1, title: "Adolescências, Juventudes e Participação", price: 10.00, imageUrl: "https://i.imgur.com/7expm1g.png", genre: "Sociologia", description: "Uma análise profunda e multifacetada sobre a complexidade das adolescências e juventudes na sociedade contemporânea. O livro explora como a participação ativa dos jovens molda a cultura, a política e as relações sociais, abordando temas como identidade, ativismo digital e os desafios de transição para a vida adulta. Uma leitura essencial para educadores, pesquisadores e todos interessados em compreender a dinâmica da nova geração." },
@@ -231,15 +244,61 @@
         const authSubmitBtn = document.getElementById('auth-submit-btn');
         const toggleAuthLink = document.getElementById('toggle-auth-link');
         const authErrorMessage = document.getElementById('auth-error-message');
-        const searchBar = document.getElementById('search-bar'); // Referência à nova barra de pesquisa
-
-        // Credenciais de login estáticas e contas salvas no localStorage
-        const ADMIN_EMAIL = "admin@livraria.com";
-        const ADMIN_PASSWORD = "senha123";
-
+        const searchBar = document.getElementById('search-bar');
+        
         // Variáveis de estado
         let cartItems = [];
         let isLoginMode = true;
+        let db, auth, user, userId;
+
+        // Firebase Initialization and Auth State Management
+        async function setupFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, async (currentUser) => {
+                    if (currentUser) {
+                        user = currentUser;
+                        userId = user.uid;
+                        loginBtn.classList.add('hidden');
+                        logoutBtn.classList.remove('hidden');
+                        
+                        // Listen for real-time cart updates
+                        const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
+                        onSnapshot(cartDocRef, (docSnap) => {
+                            if (docSnap.exists()) {
+                                const data = docSnap.data();
+                                cartItems = JSON.parse(data.items);
+                                updateCartDisplay();
+                            } else {
+                                cartItems = [];
+                                updateCartDisplay();
+                            }
+                        }, (error) => {
+                            console.error("Erro ao carregar o carrinho em tempo real:", error);
+                        });
+                    } else {
+                        user = null;
+                        userId = null;
+                        loginBtn.classList.remove('hidden');
+                        logoutBtn.classList.add('hidden');
+                        cartItems = [];
+                        updateCartDisplay();
+                    }
+                });
+            } catch (e) {
+                console.error("Erro ao configurar o Firebase:", e);
+                showMessage("Erro ao conectar com o serviço. Tente recarregar a página.");
+            }
+        }
 
         // Função para alternar entre o modo de login e o modo de registro
         function toggleAuthMode() {
@@ -261,24 +320,6 @@
             document.getElementById('confirm-password').value = '';
         }
 
-        // Inicializa o carrinho a partir do localStorage
-        function loadCartFromLocalStorage() {
-            try {
-                const storedCart = localStorage.getItem('cartItems');
-                cartItems = storedCart ? JSON.parse(storedCart) : [];
-            } catch (error) {
-                console.error("Erro ao carregar o carrinho do localStorage:", error);
-                cartItems = [];
-            }
-            updateCartDisplay();
-        }
-
-        // Salva o carrinho no localStorage
-        function saveCartToLocalStorage() {
-            localStorage.setItem('cartItems', JSON.stringify(cartItems));
-            updateCartDisplay();
-        }
-
         // Message Box function to avoid `alert()`
         function showMessage(message, duration = 3000) {
             messageBox.textContent = message;
@@ -293,23 +334,40 @@
             }, duration);
         }
 
-        // Adiciona um item ao carrinho e salva no localStorage
-        function addToCart(book) {
+        // Adiciona um item ao carrinho e salva no Firestore
+        async function addToCart(book) {
+            if (!userId) {
+                showMessage("Você precisa estar logado para adicionar itens ao carrinho.");
+                authModal.classList.remove('hidden');
+                return;
+            }
+            const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
             const existingItem = cartItems.find(item => item.id === book.id);
             if (existingItem) {
                 existingItem.quantity++;
             } else {
                 cartItems.push({ ...book, quantity: 1 });
             }
-            saveCartToLocalStorage();
-            showMessage(`${book.title} adicionado ao carrinho!`);
+            try {
+                await setDoc(cartDocRef, { items: JSON.stringify(cartItems) });
+                showMessage(`${book.title} adicionado ao carrinho!`);
+            } catch (e) {
+                console.error("Erro ao adicionar ao carrinho:", e);
+                showMessage("Erro ao adicionar ao carrinho. Tente novamente.");
+            }
         }
 
-        // Remove um item do carrinho e salva no localStorage
-        function removeFromCart(bookId) {
+        // Remove um item do carrinho e salva no Firestore
+        async function removeFromCart(bookId) {
+            const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
             cartItems = cartItems.filter(item => item.id !== bookId);
-            saveCartToLocalStorage();
-            showMessage("Item removido do carrinho.");
+            try {
+                await setDoc(cartDocRef, { items: JSON.stringify(cartItems) });
+                showMessage("Item removido do carrinho.");
+            } catch (e) {
+                console.error("Erro ao remover do carrinho:", e);
+                showMessage("Erro ao remover do carrinho. Tente novamente.");
+            }
         }
 
         // Atualiza a exibição do carrinho
@@ -469,28 +527,21 @@
             });
         }
 
-        // Handle Checkout (agora apenas exibe uma mensagem)
-        function handleCheckout() {
+        // Handle Checkout (agora apenas exibe uma mensagem e limpa o carrinho)
+        async function handleCheckout() {
             if (cartItems.length === 0) {
                 showMessage("Seu carrinho está vazio.");
                 return;
             }
-            showMessage("Pedido finalizado com sucesso! Agradecemos a sua compra.");
-            // Limpa o carrinho após a "compra"
-            cartItems = [];
-            saveCartToLocalStorage();
-            cartModal.classList.add('hidden');
-        }
-
-        // Atualiza a UI do login/logout
-        function updateLoginUI() {
-            const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            if (loggedIn) {
-                loginBtn.classList.add('hidden');
-                logoutBtn.classList.remove('hidden');
-            } else {
-                loginBtn.classList.remove('hidden');
-                logoutBtn.classList.add('hidden');
+            try {
+                const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
+                await setDoc(cartDocRef, { items: "[]" });
+                showMessage("Pedido finalizado com sucesso! Agradecemos a sua compra.");
+                cartModal.classList.add('hidden');
+                checkoutModal.classList.remove('hidden');
+            } catch (e) {
+                console.error("Erro ao finalizar a compra:", e);
+                showMessage("Erro ao finalizar a compra. Tente novamente.");
             }
         }
         
@@ -498,10 +549,9 @@
 
         // Inicia a aplicação carregando os livros e o carrinho
         window.addEventListener('load', () => {
+            setupFirebase();
             renderBooks(predefinedBooks);
             renderGenreDropdown();
-            loadCartFromLocalStorage();
-            updateLoginUI();
         });
 
         // Open/Close Modals
@@ -516,87 +566,88 @@
             authModal.classList.remove('hidden');
         });
         closeAuthBtn.addEventListener('click', () => authModal.classList.add('hidden'));
-        logoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('isLoggedIn');
-            updateLoginUI();
-            showMessage("Você saiu da sua conta.");
-        });
-
-        // Toggle genre dropdown
-        genreDropdownBtn.addEventListener('click', () => {
-            genreDropdown.classList.toggle('hidden');
-        });
         
-        // Add to Cart from details modal
-        detailsAddBtn.addEventListener('click', () => {
-            const bookId = parseInt(detailsAddBtn.dataset.bookId);
-            const book = predefinedBooks.find(b => b.id === bookId);
-            if (book) {
-                addToCart(book);
-            }
-            detailsModal.classList.add('hidden');
-        });
-
-        // Checkout from Cart
-        checkoutFromCartBtn.addEventListener('click', () => {
-            cartModal.classList.add('hidden');
-            checkoutModal.classList.remove('hidden');
-        });
-
-        // Autenticação (Login e Registro)
-        authForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-
-            authErrorMessage.classList.add('hidden');
-
-            if (isLoginMode) {
-                // Modo de Login
-                if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    showMessage("Login bem-sucedido! Bem-vindo(a) de volta.");
-                    authModal.classList.add('hidden');
-                    updateLoginUI();
-                } else {
-                    authErrorMessage.textContent = "E-mail ou senha incorretos.";
-                    authErrorMessage.classList.remove('hidden');
-                }
-            } else {
-                // Modo de Registro
-                if (password !== confirmPassword) {
-                    authErrorMessage.textContent = "As senhas não coincidem.";
-                    authErrorMessage.classList.remove('hidden');
-                    return;
-                }
-                if (password.length < 6) {
-                    authErrorMessage.textContent = "A senha deve ter pelo menos 6 caracteres.";
-                    authErrorMessage.classList.remove('hidden');
-                    return;
-                }
-                
-                // Simulação de registro bem-sucedido
-                // Em um cenário real, você usaria um banco de dados
-                showMessage("Conta criada com sucesso! Faça o login para continuar.");
-                toggleAuthMode();
-            }
-        });
-
-        // Evento para alternar entre login e registro
         toggleAuthLink.addEventListener('click', (e) => {
             e.preventDefault();
             toggleAuthMode();
         });
 
-        // --- Nova lógica para a barra de pesquisa ---
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                showMessage("Você saiu da sua conta.");
+            } catch (error) {
+                showMessage("Erro ao sair da conta.");
+                console.error("Erro ao sair:", error);
+            }
+        });
+
+        detailsAddBtn.addEventListener('click', (e) => {
+            const bookId = parseInt(e.currentTarget.dataset.bookId);
+            const book = predefinedBooks.find(b => b.id === bookId);
+            if (book) {
+                addToCart(book);
+                detailsModal.classList.add('hidden');
+            }
+        });
+
+        checkoutFromCartBtn.addEventListener('click', handleCheckout);
+
         searchBar.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            const filteredBooks = predefinedBooks.filter(book =>
-                book.title.toLowerCase().includes(searchTerm) ||
+            const filteredBooks = predefinedBooks.filter(book => 
+                book.title.toLowerCase().includes(searchTerm) || 
                 book.description.toLowerCase().includes(searchTerm)
             );
             renderBooks(filteredBooks);
+        });
+
+        // Auth Form Submission
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            authErrorMessage.classList.add('hidden');
+
+            try {
+                if (isLoginMode) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    showMessage("Login realizado com sucesso!");
+                } else {
+                    if (password !== confirmPassword) {
+                        authErrorMessage.textContent = "As senhas não coincidem.";
+                        authErrorMessage.classList.remove('hidden');
+                        return;
+                    }
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    showMessage("Conta criada com sucesso!");
+                }
+                authModal.classList.add('hidden');
+            } catch (error) {
+                let message = "Ocorreu um erro. Tente novamente.";
+                switch (error.code) {
+                    case 'auth/wrong-password':
+                    case 'auth/user-not-found':
+                    case 'auth/invalid-credential':
+                        message = "E-mail ou senha inválidos.";
+                        break;
+                    case 'auth/email-already-in-use':
+                        message = "Este e-mail já está em uso.";
+                        break;
+                    case 'auth/weak-password':
+                        message = "A senha deve ter no mínimo 6 caracteres.";
+                        break;
+                    case 'auth/invalid-email':
+                        message = "Formato de e-mail inválido.";
+                        break;
+                    default:
+                        console.error("Firebase Auth Error:", error);
+                        break;
+                }
+                authErrorMessage.textContent = message;
+                authErrorMessage.classList.remove('hidden');
+            }
         });
 
     </script>
