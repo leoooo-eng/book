@@ -21,9 +21,7 @@
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 transition-all duration-500">
 
-    <!-- Header -->
     <header class="w-full max-w-5xl py-8 flex flex-col items-center relative">
-        <!-- Botões de Ação no canto superior direito (Login/Cart) -->
         <div class="absolute top-4 right-4 flex items-center space-x-2">
             <button id="login-btn" class="bg-indigo-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-indigo-700 transition">Login</button>
             <button id="logout-btn" class="bg-indigo-200 text-indigo-700 font-semibold text-sm px-4 py-2 rounded-full shadow-lg hover:bg-indigo-300 transition hidden">Sair</button>
@@ -35,40 +33,33 @@
             </button>
         </div>
 
-        <!-- Título centralizado -->
         <div class="w-full text-center mb-4">
             <h1 class="text-5xl sm:text-6xl font-extrabold text-indigo-600">AchadoTeca</h1>
         </div>
 
-        <!-- Botão de Gêneros e Barra de Busca lado a lado (layout corrigido) -->
         <div class="w-full flex items-center space-x-4">
             <div class="relative">
                 <button id="genre-dropdown-btn" class="bg-indigo-600 text-white font-semibold text-sm px-4 py-2 rounded-full shadow-lg border-2 border-indigo-600 hover:bg-indigo-700 transition">
                     Gêneros
                 </button>
                 <div id="genre-dropdown" class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-10">
-                    <!-- Opções de gênero serão injetadas aqui -->
-                </div>
+                    </div>
             </div>
             
-            <!-- A barra de pesquisa preenche o restante do espaço -->
             <div class="flex-grow">
                 <input type="text" id="search-bar" placeholder="Buscar por título ou descrição..." class="w-full px-4 py-2 rounded-full shadow-lg border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 transition">
             </div>
         </div>
 
-        <!-- Linha horizontal adicionada para separar o cabeçalho do conteúdo -->
         <div class="w-full mt-8 h-px bg-gray-300"></div>
     </header>
 
-    <!-- Main Content - Book Grid -->
     <main class="w-full max-w-5xl">
         <div id="book-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
             <p class="text-center text-gray-800 col-span-full">Carregando livros...</p>
         </div>
     </main>
 
-    <!-- Modal de Detalhes do Livro -->
     <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
             <div class="flex justify-between items-center mb-6">
@@ -93,7 +84,6 @@
         </div>
     </div>
 
-    <!-- Modal de Carrinho -->
     <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
             <div class="flex justify-between items-center mb-6">
@@ -105,20 +95,17 @@
                 </button>
             </div>
             <div id="cart-items" class="space-y-4">
-                <!-- Itens do carrinho serão injetados aqui -->
-            </div>
+                </div>
             <div class="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center">
                 <span class="text-xl font-bold text-gray-800">Total:</span>
                 <span id="cart-total" class="text-3xl font-bold text-gray-900">R$ 0,00</span>
             </div>
-            <!-- Botão de checkout só aparece se o carrinho não estiver vazio -->
             <button id="checkout-from-cart-btn" class="w-full bg-indigo-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-indigo-700 transition transform hover:scale-105 mt-6">
                 Finalizar Compra
             </button>
         </div>
     </div>
 
-    <!-- Modal de Checkout -->
     <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md transform transition-all scale-95 duration-300">
             <div class="flex justify-between items-center mb-6">
@@ -131,7 +118,6 @@
             </div>
             <div class="flex flex-col items-center">
                 <p class="text-2xl font-bold text-gray-900 mb-4">Total: <span id="checkout-total">R$ 0,00</span></p>
-                <!-- Apenas o número, sem texto descritivo -->
                 <p class="text-2xl font-bold text-indigo-600 mt-2 mb-4">
                     <span class="text-gray-700 text-base block font-normal">Número PIX / WhatsApp:</span>
                     (11) 94060-0244
@@ -146,7 +132,6 @@
         </div>
     </div>
 
-    <!-- Modal de Autenticação (Login) -->
     <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-20">
         <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-95 duration-300">
             <div class="flex justify-between items-center mb-6">
@@ -166,17 +151,14 @@
                     <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
                     <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" required>
                 </div>
-                <!-- Novo campo para confirmar senha, inicialmente oculto -->
                 <div id="confirm-password-field" class="hidden">
                     <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
                     <input type="password" id="confirm-password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
                 </div>
-                <!-- Área para mensagens de erro -->
                 <p id="auth-error-message" class="text-red-600 text-sm hidden"></p>
                 <button type="submit" id="auth-submit-btn" class="w-full bg-indigo-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-indigo-700 transition transform hover:scale-105">
                     Acessar
                 </button>
-                <!-- Botão para alternar entre login e registro -->
                 <div class="text-center mt-4">
                     <a href="#" id="toggle-auth-link" class="text-sm text-indigo-600 hover:underline">
                         Não tem uma conta? Crie uma aqui.
@@ -186,19 +168,27 @@
         </div>
     </div>
     
-    <!-- Message Box -->
     <div id="message-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-indigo-900 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 z-50"></div>
 
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global variables for Firestore (MUST BE USED)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        // =================== CONFIGURAÇÃO DO FIREBASE INSERIDA AQUI ===================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCZzlOzQRZr1zb7D1SVRkYkWGbAsk8sBm4",
+            authDomain: "bibiteca-9feac.firebaseapp.com",
+            projectId: "bibiteca-9feac",
+            storageBucket: "bibiteca-9feac.firebasestorage.app",
+            messagingSenderId: "200155184619",
+            appId: "1:200155184619:web:fbd81a4f10ea3da6ceadae"
+        };
+        // ==============================================================================
+
+        // Variaveis globais (usadas para construir o caminho no Firestore)
+        const appId = firebaseConfig.appId;
+        const initialAuthToken = null; // Definido como nulo, pois não foi fornecido um token inicial
 
         // Dados de livros predefinidos (agora como a fonte principal de dados)
         const predefinedBooks = [
@@ -218,6 +208,7 @@
         const detailsBookImage = document.getElementById('details-book-image');
         const detailsBookTitle = document.getElementById('details-book-title');
         const detailsBookDescription = document.getElementById('details-book-description');
+        const detailsBookPrice = document.getElementById('details-book-price');
         const detailsAddBtn = document.getElementById('details-add-to-cart-btn');
         const checkoutModal = document.getElementById('checkout-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
@@ -265,7 +256,7 @@
                 }
 
                 onAuthStateChanged(auth, async (currentUser) => {
-                    if (currentUser) {
+                    if (currentUser && !currentUser.isAnonymous) {
                         user = currentUser;
                         userId = user.uid;
                         loginBtn.classList.add('hidden');
@@ -287,10 +278,10 @@
                         });
                     } else {
                         user = null;
-                        userId = null;
+                        userId = currentUser ? currentUser.uid : null; // Keep userId for anonymous users
                         loginBtn.classList.remove('hidden');
                         logoutBtn.classList.add('hidden');
-                        cartItems = [];
+                        cartItems = []; // Clear cart for logged-out users
                         updateCartDisplay();
                     }
                 });
@@ -323,7 +314,7 @@
         // Message Box function to avoid `alert()`
         function showMessage(message, duration = 3000) {
             messageBox.textContent = message;
-            messageBox.classList.remove('hidden');
+            messageBox.classList.remove('opacity-0', 'hidden');
             messageBox.classList.add('opacity-100');
             setTimeout(() => {
                 messageBox.classList.remove('opacity-100');
@@ -337,10 +328,15 @@
         // Adiciona um item ao carrinho e salva no Firestore
         async function addToCart(book) {
             if (!userId) {
-                showMessage("Você precisa estar logado para adicionar itens ao carrinho.");
+                showMessage("Erro: ID de usuário não encontrado. Tente recarregar a página.");
+                return;
+            }
+            if (!user) { // If user is anonymous or logged out
+                showMessage("Você precisa criar uma conta para adicionar itens ao carrinho.");
                 authModal.classList.remove('hidden');
                 return;
             }
+
             const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
             const existingItem = cartItems.find(item => item.id === book.id);
             if (existingItem) {
@@ -393,15 +389,15 @@
             
             const animatedImage = document.createElement('img');
             animatedImage.src = imageUrl;
-            animatedImage.className = 'absolute z-50 w-12 h-16 rounded-md object-cover transition-all duration-700 ease-in-out';
+            animatedImage.className = 'fixed z-50 w-12 h-16 rounded-md object-cover transition-all duration-700 ease-in-out';
             animatedImage.style.top = `${startRect.top}px`;
             animatedImage.style.left = `${startRect.left}px`;
             
             document.body.appendChild(animatedImage);
 
             setTimeout(() => {
-                animatedImage.style.top = `${endRect.top}px`;
-                animatedImage.style.left = `${endRect.left}px`;
+                animatedImage.style.top = `${endRect.top + window.scrollY}px`;
+                animatedImage.style.left = `${endRect.left + window.scrollX}px`;
                 animatedImage.style.transform = 'scale(0.2)';
                 animatedImage.style.opacity = '0';
             }, 10);
@@ -415,7 +411,7 @@
         function renderBooks(booksToRender) {
             bookGrid.innerHTML = '';
             if (booksToRender.length === 0) {
-                bookGrid.innerHTML = '<p class="text-center text-gray-800 col-span-full">Nenhum livro encontrado para este gênero.</p>';
+                bookGrid.innerHTML = '<p class="text-center text-gray-800 col-span-full">Nenhum livro encontrado.</p>';
                 return;
             }
             booksToRender.forEach(book => {
@@ -489,6 +485,10 @@
                 genreDropdown.appendChild(genreOption);
             });
         }
+        
+        genreDropdownBtn.addEventListener('click', () => {
+             genreDropdown.classList.toggle('hidden');
+        });
 
         // Renderiza os itens do carrinho no modal
         function renderCartItems(items) {
@@ -527,16 +527,22 @@
             });
         }
 
-        // Handle Checkout (agora apenas exibe uma mensagem e limpa o carrinho)
+        // Handle Checkout
         async function handleCheckout() {
             if (cartItems.length === 0) {
                 showMessage("Seu carrinho está vazio.");
                 return;
             }
+             if (!user) {
+                showMessage("Você precisa estar logado para finalizar a compra.");
+                authModal.classList.remove('hidden');
+                return;
+            }
             try {
+                // Here you might want to save the order to a different collection
+                // For this example, we just clear the cart.
                 const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
-                await setDoc(cartDocRef, { items: "[]" });
-                showMessage("Pedido finalizado com sucesso! Agradecemos a sua compra.");
+                await setDoc(cartDocRef, { items: "[]" }); // Clears the cart in Firestore
                 cartModal.classList.add('hidden');
                 checkoutModal.classList.remove('hidden');
             } catch (e) {
@@ -548,7 +554,7 @@
         // --- EVENT LISTENERS ---
 
         // Inicia a aplicação carregando os livros e o carrinho
-        window.addEventListener('load', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             setupFirebase();
             renderBooks(predefinedBooks);
             renderGenreDropdown();
@@ -562,7 +568,8 @@
         closeCartBtn.addEventListener('click', () => cartModal.classList.add('hidden'));
         closeModalBtn.addEventListener('click', () => checkoutModal.classList.add('hidden'));
         loginBtn.addEventListener('click', () => {
-            toggleAuthMode();
+            isLoginMode = true; // Garante que sempre abre no modo login
+            toggleAuthMode(); // Atualiza a UI para o modo login
             authModal.classList.remove('hidden');
         });
         closeAuthBtn.addEventListener('click', () => authModal.classList.add('hidden'));
@@ -575,6 +582,7 @@
         logoutBtn.addEventListener('click', async () => {
             try {
                 await signOut(auth);
+                // After signOut, onAuthStateChanged will trigger and handle the UI update
                 showMessage("Você saiu da sua conta.");
             } catch (error) {
                 showMessage("Erro ao sair da conta.");
