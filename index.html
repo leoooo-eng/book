@@ -590,6 +590,11 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             authErrorMessage.classList.add('hidden');
+            
+            // Disable button and show loading state
+            authSubmitBtn.disabled = true;
+            const originalButtonText = authSubmitBtn.textContent;
+            authSubmitBtn.textContent = 'Carregando...';
 
             try {
                 if (isLoginMode) {
@@ -608,12 +613,12 @@
                 authModal.classList.add('hidden');
             } catch (error) {
                 console.error("Erro de autenticação:", error);
-                let message = "Ocorreu um erro de autenticação.";
+                let message = "Ocorreu um erro. Verifique sua conexão e tente novamente.";
                 switch (error.code) {
                     case 'auth/invalid-credential':
                     case 'auth/wrong-password':
                     case 'auth/user-not-found':
-                        message = "Credenciais inválidas. Verifique seu e-mail e senha.";
+                        message = "E-mail ou senha incorretos. Por favor, verifique suas credenciais.";
                         break;
                     case 'auth/email-already-in-use':
                         message = "Este e-mail já está em uso.";
@@ -627,6 +632,10 @@
                 }
                 authErrorMessage.textContent = message;
                 authErrorMessage.classList.remove('hidden');
+            } finally {
+                // Re-enable button and restore text
+                authSubmitBtn.disabled = false;
+                authSubmitBtn.textContent = originalButtonText;
             }
         });
 
