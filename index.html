@@ -132,22 +132,7 @@
     
     <div id="message-box" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-indigo-900 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 z-50"></div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        setLogLevel('debug');
-
-        // =================== CONFIGURAÇÃO DO FIREBASE INSERIDA AQUI ===================
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "dummy-api-key",
-            authDomain: "dummy-project-id.firebaseapp.com",
-            projectId: "dummy-project-id"
-        };
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        // ==============================================================================
-
+    <script>
         // Dados de livros predefinidos (agora como a fonte principal de dados)
         const predefinedBooks = [
             { id: 1, title: "Adolescências, Juventudes e Participação", price: 10.00, imageUrl: "https://i.imgur.com/7expm1g.png", genre: "Sociologia", description: "Uma análise profunda e multifacetada sobre a complexidade das adolescências e juventudes na sociedade contemporânea. O livro explora como a participação ativa dos jovens molda a cultura, a política e as relações sociais, abordando temas como identidade, ativismo digital e os desafios de transição para a vida adulta. Uma leitura essencial para educadores, pesquisadores e todos interessados em compreender a dinâmica da nova geração." },
@@ -185,43 +170,6 @@
         
         // Variáveis de estado
         let cartItems = [];
-        let db, auth, userId;
-
-        // Firebase Initialization and Auth State Management
-        async function setupFirebase() {
-            try {
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-                
-                // Sign in anonymously to get a user ID
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        // Listen for real-time cart updates
-                        const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
-                        onSnapshot(cartDocRef, (docSnap) => {
-                            if (docSnap.exists()) {
-                                const data = docSnap.data();
-                                cartItems = JSON.parse(data.items);
-                                updateCartDisplay();
-                            } else {
-                                cartItems = [];
-                                updateCartDisplay();
-                            }
-                        }, (error) => {
-                            console.error("Erro ao carregar o carrinho em tempo real:", error);
-                        });
-                    } else {
-                        // Sign in anonymously to generate a user ID for the session
-                        signInAnonymously(auth);
-                    }
-                });
-            } catch (e) {
-                console.error("Erro ao configurar o Firebase:", e);
-                showMessage("Erro ao conectar com o serviço. Tente recarregar a página.");
-            }
-        }
 
         // Message Box function to avoid `alert()`
         function showMessage(message, duration = 3000) {
@@ -237,40 +185,23 @@
             }, duration);
         }
 
-        // Adiciona um item ao carrinho e salva no Firestore
-        async function addToCart(book) {
-            if (!userId) {
-                showMessage("Erro: ID de usuário não encontrado. Tente recarregar a página.");
-                return;
-            }
-
-            const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
+        // Adiciona um item ao carrinho
+        function addToCart(book) {
             const existingItem = cartItems.find(item => item.id === book.id);
             if (existingItem) {
                 existingItem.quantity++;
             } else {
                 cartItems.push({ ...book, quantity: 1 });
             }
-            try {
-                await setDoc(cartDocRef, { items: JSON.stringify(cartItems) });
-                showMessage(`${book.title} adicionado ao carrinho!`);
-            } catch (e) {
-                console.error("Erro ao adicionar ao carrinho:", e);
-                showMessage("Erro ao adicionar ao carrinho. Tente novamente.");
-            }
+            showMessage(`${book.title} adicionado ao carrinho!`);
+            updateCartDisplay();
         }
 
-        // Remove um item do carrinho e salva no Firestore
-        async function removeFromCart(bookId) {
-            const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/items`);
+        // Remove um item do carrinho
+        function removeFromCart(bookId) {
             cartItems = cartItems.filter(item => item.id !== bookId);
-            try {
-                await setDoc(cartDocRef, { items: JSON.stringify(cartItems) });
-                showMessage("Item removido do carrinho.");
-            } catch (e) {
-                console.error("Erro ao remover do carrinho:", e);
-                showMessage("Erro ao remover do carrinho. Tente novamente.");
-            }
+            showMessage("Item removido do carrinho.");
+            updateCartDisplay();
         }
 
         // Atualiza a exibição do carrinho
@@ -427,7 +358,6 @@
 
         // Event Listeners
         window.addEventListener('load', () => {
-            setupFirebase();
             renderBooks(predefinedBooks);
             renderGenreDropdown();
         });
