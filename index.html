@@ -140,7 +140,11 @@
         setLogLevel('debug');
 
         // =================== CONFIGURAÇÃO DO FIREBASE INSERIDA AQUI ===================
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "dummy-api-key",
+            authDomain: "dummy-project-id.firebaseapp.com",
+            projectId: "dummy-project-id"
+        };
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         // ==============================================================================
 
